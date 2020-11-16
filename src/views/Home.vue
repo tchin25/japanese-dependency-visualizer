@@ -1,16 +1,15 @@
 <template>
-  <div class="field">
-    <div class="control">
-      <input class="input" type="text" placeholder="Input" />
-    </div>
-  </div>
+  <SentenceInput />
+  <TokenTable />
 </template>
 
 <script>
 // @ is an alias to /src
+import SentenceInput from "@/components/SentenceInput.vue";
+import TokenTable from "@/components/TokenTable.vue";
 
 export default {
   name: "Home",
-  components: {},
+  components: { SentenceInput, TokenTable },
 };
 </script>
