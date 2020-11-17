@@ -16,10 +16,29 @@
       />
     </template>
     <template v-for="(n, index) in treeData.nodes" :key="index">
-      <text :x="n.x" :y="n.y" dy="0.35em" stroke="white" stroke-width="6">
+      <line
+        class="node"
+        stroke="black"
+        stroke-width="8"
+        :x1="n.x"
+        :y1="n.y"
+        :x2="n.x"
+        :y2="n.y"
+      />
+      <line
+        class="node"
+        stroke="white"
+        stroke-width="4"
+        :x1="n.x"
+        :y1="n.y"
+        :x2="n.x"
+        :y2="n.y"
+      />
+
+      <!-- <text :x="n.x" :y="n.y" dy="0.35em" stroke="white" stroke-width="6">
         {{ n.id }}
-      </text>
-      <text :x="n.x" :y="n.y" dy="0.35em">{{ n.id }}</text>
+      </text> -->
+      <text :x="n.x + 2" :y="n.y - 8" dy="0.35em">{{ n.label }}</text>
     </template>
   </svg>
 </template>
@@ -33,28 +52,15 @@ export default {
     return {
       color: d3.scaleOrdinal(d3.schemeDark2),
       sentence: [
-        [{ id: "Chaos" }],
-        [{ id: "Gaea", parents: ["Chaos"] }, { id: "Uranus" }],
+        [{ id: 0, label: "僕は" }],
         [
-          { id: "Oceanus", parents: ["Gaea", "Uranus"] },
-          { id: "Thethys", parents: ["Gaea", "Uranus"] },
-          { id: "Pontus" },
-          { id: "Rhea", parents: ["Gaea", "Uranus"] },
-          { id: "Cronus", parents: ["Gaea", "Uranus"] },
+          { id: 1, label: "あの" },
+          { id: 2, label: "赤い" },
         ],
-        [
-          { id: "Doris", parents: ["Oceanus", "Thethys"] },
-          { id: "Neures", parents: ["Pontus", "Gaea"] },
-          { id: "Dionne" },
-          { id: "Demeter", parents: ["Rhea", "Cronus"] },
-          { id: "Alcmene" },
-          { id: "Zeus", parents: ["Rhea", "Cronus"] },
-          { id: "Eris" },
-          { id: "Amphitrite" },
-          { id: "Medusa" },
-          { id: "Poseidon", parents: ["Rhea", "Cronus"] },
-          { id: "Hestia", parents: ["Rhea", "Cronus"] },
-        ],
+        [{ id: 3, label: "鞄を", parents: [1, 2] }],
+        [{ id: 4, label: "持っている", parents: [3] }],
+        [{ id: 5, label: "人が", parents: [4] }],
+        [{ id: 6, label: "知っています", parents: [5, 0] }],
       ],
     };
   },
@@ -168,5 +174,8 @@ export default {
 text {
   font-family: sans-serif;
   font-size: 12px;
+}
+.node {
+  stroke-linecap: round;
 }
 </style>
