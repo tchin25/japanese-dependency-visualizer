@@ -1,7 +1,9 @@
 <template>
   <SentenceInput />
-  <TokenTable />
-  <DependencyVisualizer />
+  <div style="display: flex;">
+    <TokenTable />
+    <DependencyVisualizer />
+  </div>
 </template>
 
 <script>

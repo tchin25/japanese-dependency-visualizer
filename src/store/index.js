@@ -5,7 +5,8 @@ export default createStore({
     sentence: "",
   },
   getters: {
-    tokenizedSentence: (state) => state.sentence.split("|"),
+    tokenizedSentence: (state) =>
+      state.sentence.length > 0 ? state.sentence.split("|") : [],
   },
   mutations: {
     updateSentence(state, sentence) {

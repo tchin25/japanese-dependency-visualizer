@@ -3,12 +3,13 @@
     <td>{{ token }}</td>
     <td>
       <div class="select">
-        <select>
-          <option disabled value="">Select Parent</option>
+        <select v-model="value" @change="onChange">
+          <option value="">None</option>
           <option
             v-for="(token, _index) in tokenizedSentence"
             :key="_index"
             :disabled="index == _index"
+            :value="_index"
           >
             {{ token }}
           </option>
@@ -32,9 +33,27 @@ export default {
       type: Number,
     },
   },
+  data() {
+    return {
+      value: "",
+    };
+  },
   mounted() {},
   computed: {
     ...mapGetters(["tokenizedSentence"]),
+  },
+  methods: {
+    onChange() {
+      console.log("row changed");
+      // Invert index for id because we want to work backwards
+      this.$emit("row-change", {
+        index: this.index,
+        id: this.tokenizedSentence.length - this.index - 1,
+        label: this.token,
+        parentIndex: this.value,
+        parentId: this.tokenizedSentence.length - this.value - 1,
+      });
+    },
   },
 };
 </script>
