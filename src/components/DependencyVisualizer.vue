@@ -1,5 +1,5 @@
 <template>
-  <svg width="800" :height="treeData.layout.height">
+  <svg width="100%" :height="treeData.layout.height">
     <template v-for="(l, index) in treeData.links" :key="index">
       <path
         :d="
@@ -16,6 +16,15 @@
       />
     </template>
     <template v-for="(n, index) in treeData.nodes" :key="index">
+      <text
+        :x="n.x + 2"
+        :y="n.y - 12"
+        dy="0.35em"
+        stroke="white"
+        stroke-width="4"
+      >
+        {{ n.label }}
+      </text>
       <line
         class="node"
         stroke="black"
@@ -34,23 +43,21 @@
         :x2="n.x"
         :y2="n.y"
       />
-
-      <!-- <text :x="n.x" :y="n.y" dy="0.35em" stroke="white" stroke-width="6">
-        {{ n.id }}
-      </text> -->
-      <text :x="n.x + 2" :y="n.y - 8" dy="0.35em">{{ n.label }}</text>
+      <text :x="n.x + 2" :y="n.y - 12" dy="0.35em">{{ n.label }}</text>
     </template>
   </svg>
 </template>
 
 <script>
-import * as d3 from "d3";
-import { toRaw } from "vue";
+// import * as d3 from "d3";
+import { scaleOrdinal } from "d3-scale";
+import { schemeDark2 } from "d3-scale-chromatic";
+import sentences from "../example-sentences";
 
 export default {
   data() {
     return {
-      color: d3.scaleOrdinal(d3.schemeDark2),
+      color: scaleOrdinal(schemeDark2),
       sentence: [
         [{ id: 0, label: "僕は" }],
         [
@@ -69,8 +76,10 @@ export default {
   },
   computed: {
     treeData() {
-      let levels = JSON.parse(JSON.stringify(toRaw(this.sentence)));
+      // Deep clone array
+      let levels = JSON.parse(JSON.stringify(sentences.readable));
       console.log(levels);
+
       // precompute level depth
       levels.forEach((l, i) => l.forEach((n) => (n.level = i)));
 
@@ -119,10 +128,10 @@ export default {
       var bundles = levels.reduce((a, x) => a.concat(x.bundles), []);
 
       // layout
-      const node_height = 16;
+      const node_height = 24;
       const node_width = 80;
       const bundle_width = 16;
-      const level_y_padding = 16;
+      const level_y_padding = 20;
 
       var x_offset = 0;
       var y_offset = 0;
