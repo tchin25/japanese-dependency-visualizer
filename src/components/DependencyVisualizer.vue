@@ -64,10 +64,10 @@ export default {
           { id: 1, label: "あの" },
           { id: 2, label: "赤い" },
         ],
-        [{ id: 3, label: "鞄を", parents: [1, 2] }],
-        [{ id: 4, label: "持っている", parents: [3] }],
-        [{ id: 5, label: "人が", parents: [4] }],
-        [{ id: 6, label: "知っています", parents: [5, 0] }],
+        [{ id: 3, label: "鞄を", children: [1, 2] }],
+        [{ id: 4, label: "持っている", children: [3] }],
+        [{ id: 5, label: "人が", children: [4] }],
+        [{ id: 6, label: "知っています", children: [5, 0] }],
       ],
     };
   },
@@ -89,7 +89,7 @@ export default {
 
       // objectification
       nodes.forEach((d) => {
-        d.parents = (d.parents === undefined ? [] : d.parents).map(
+        d.children = (d.children === undefined ? [] : d.children).map(
           (p) => nodes_index[p]
         );
       });
@@ -99,18 +99,18 @@ export default {
         var index = {};
         l.forEach((n) => {
           console.log(n);
-          if (n.parents.length == 0) {
+          if (n.children.length == 0) {
             return;
           }
 
-          var id = n.parents
+          var id = n.children
             .map((d) => d.id)
             .sort()
             .join("--");
           if (id in index) {
-            index[id].parents = index[id].parents.concat(n.parents);
+            index[id].children = index[id].children.concat(n.children);
           } else {
-            index[id] = { id: id, parents: n.parents.slice(), level: i };
+            index[id] = { id: id, children: n.children.slice(), level: i };
           }
           n.bundle = index[id];
         });
@@ -120,7 +120,7 @@ export default {
 
       var links = [];
       nodes.forEach((d) => {
-        d.parents.forEach((p) =>
+        d.children.forEach((p) =>
           links.push({ source: d, bundle: d.bundle, target: p })
         );
       });
@@ -149,7 +149,7 @@ export default {
       levels.forEach((l) => {
         l.bundles.forEach((b) => {
           b.x =
-            b.parents[0].x +
+            b.children[0].x +
             node_width +
             (l.bundles.length - 1 - b.i) * bundle_width;
           b.y = i * node_height;

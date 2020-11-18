@@ -2,19 +2,28 @@
   <table class="table">
     <thead>
       <th>Tokenized</th>
-      <th>Dependencies</th>
+      <th>Parent</th>
     </thead>
     <tbody>
-      <tr v-for="(token, index) in tokenizedSentence" :key="index">
-        <td>{{ token }}</td>
-      </tr>
+      <TokenTableRow
+        v-for="(token, index) in tokenizedSentence"
+        :token="token"
+        :index="index"
+        :key="index"
+      >
+      </TokenTableRow>
     </tbody>
   </table>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import TokenTableRow from "./TokenTableRow";
+
 export default {
+  components: {
+    TokenTableRow,
+  },
   computed: {
     ...mapGetters(["tokenizedSentence"]),
   },
