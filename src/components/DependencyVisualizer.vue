@@ -132,10 +132,10 @@ export default {
       var bundles = levels.reduce((a, x) => a.concat(x.bundles), []);
 
       // layout
-      const node_height = 24;
+      const node_height = 40;
       const node_width = 80;
       const bundle_width = 16;
-      const level_y_padding = 20;
+      const level_y_padding = 18;
 
       var x_offset = 0;
       var y_offset = 0;
@@ -186,7 +186,7 @@ export default {
 <style scoped>
 text {
   font-family: sans-serif;
-  font-size: 12px;
+  font-size: 16px;
 }
 .node {
   stroke-linecap: round;

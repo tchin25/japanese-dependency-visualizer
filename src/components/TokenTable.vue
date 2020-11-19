@@ -59,7 +59,7 @@ export default {
       }
 
       // Remove child from former parent
-      let formerParentIndex = flattened[childIndex].parent;
+      let formerParentIndex = flattened[childIndex].parentIndex;
       if (formerParentIndex >= 0) {
         flattened[formerParentIndex].children = flattened[
           formerParentIndex
@@ -67,13 +67,14 @@ export default {
       }
 
       // Replace child's parent parameter
-      flattened[childIndex].parent = parentIndex;
+      flattened[childIndex].parentIndex = parentIndex;
     },
   },
   watch: {
     tokenizedSentence: {
       handler: function(newTokenizedSentence) {
         console.log("handler called");
+        //TODO: merge flows
         console.log(this.sentenceFlow.value);
         this.sentenceFlow.value = newTokenizedSentence.map((token, index) => {
           return [
@@ -81,7 +82,7 @@ export default {
               id: newTokenizedSentence.length - index - 1,
               label: token,
               children: [],
-              parent: -1,
+              parentIndex: -1,
             },
           ];
         });

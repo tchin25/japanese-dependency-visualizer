@@ -5,14 +5,11 @@
       <div class="select">
         <select v-model="value" @change="onChange">
           <option :value="-1">None</option>
-          <option
-            v-for="(token, _index) in tokenizedSentence"
-            :key="_index"
-            :disabled="index == _index"
-            :value="_index"
-          >
-            {{ token }}
-          </option>
+          <template v-for="(token, _index) in tokenizedSentence" :key="_index">
+            <option v-if="index < _index" :value="_index">
+              {{ token }}
+            </option>
+          </template>
         </select>
       </div>
     </td>
