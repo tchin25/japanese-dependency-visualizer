@@ -28,35 +28,58 @@
 <script>
 import { mapGetters } from "vuex";
 import TokenTableRow from "./TokenTableRow";
+import { unref } from "vue";
 
 export default {
+  inject: ["sentenceFlow"],
   components: {
     TokenTableRow,
-  },
-  data() {
-    return {
-      sentenceFlow: [],
-    };
   },
   computed: {
     ...mapGetters(["tokenizedSentence"]),
   },
   methods: {
-    updateSentence({ index, id, label, parentIndex, parentId }) {
+    updateSentence({
+      index: childIndex,
+      id: childId,
+      label,
+      parentIndex,
+      parentId,
+    }) {
       console.log("sentence updated");
-      // TODO: remove children
-      this.sentenceFlow[parentIndex].children.push(id);
+
+      // Flatten array of array of objects into array of objects
+      let flattened = this.sentenceFlow.value.flat();
+
+      // Add child to parent
+      flattened[parentIndex].children.push(childId);
+
+      // Remove child from former parent
+      let formerParentIndex = flattened[childIndex].parent;
+      if (formerParentIndex >= 0) {
+        flattened[formerParentIndex].children = flattened[
+          formerParentIndex
+        ].children.filter((i) => i != childIndex);
+      }
+
+      // Replace child's parent parameter
+      flattened[childIndex].parent = parentIndex;
     },
   },
   watch: {
     tokenizedSentence: {
       handler: function(newTokenizedSentence) {
-        this.sentenceFlow = newTokenizedSentence.map((token, index) => {
-          return {
-            id: newTokenizedSentence.length - index - 1,
-            label: token,
-            children: [],
-          };
+        console.log("handler called");
+        console.log(this.sentenceFlow.value);
+        this.sentenceFlow.value = newTokenizedSentence.map((token, index) => {
+          return [
+            {
+              id: newTokenizedSentence.length - index - 1,
+              label: token,
+              children: [],
+              parent: -1,
+            },
+          ];
         });
       },
       immediate: true,

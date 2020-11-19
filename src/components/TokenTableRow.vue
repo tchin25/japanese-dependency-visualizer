@@ -4,7 +4,7 @@
     <td>
       <div class="select">
         <select v-model="value" @change="onChange">
-          <option value="">None</option>
+          <option :value="-1">None</option>
           <option
             v-for="(token, _index) in tokenizedSentence"
             :key="_index"
@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      value: "",
+      value: -1,
     };
   },
   mounted() {},

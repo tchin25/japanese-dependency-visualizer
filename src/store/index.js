@@ -13,6 +13,22 @@ export default createStore({
       state.sentence = sentence;
     },
   },
-  actions: {},
+  actions: {
+    // mergeSentenceFlow({ state, commit }, newFlow) {
+    //   if (state.sentenceFlow.length === 0) {
+    //     let sentenceFlow = newFlow.map((token, index) => {
+    //       return [
+    //         {
+    //           id: newFlow.length - index - 1,
+    //           label: token,
+    //           children: [],
+    //           parent: -1,
+    //         },
+    //       ];
+    //     });
+    //     commit("updateSentenceFlow", sentenceFlow);
+    //   }
+    // },
+  },
   modules: {},
 });

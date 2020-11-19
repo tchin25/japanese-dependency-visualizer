@@ -76,9 +76,9 @@ export default {
   },
   computed: {
     treeData() {
-      // Deep clone array
-      let levels = JSON.parse(JSON.stringify(sentences.readable));
-      console.log(levels);
+      // Deep clone array so our modifications don't retrigger computation
+      let levels = JSON.parse(JSON.stringify(sentences.levels));
+    //   console.log(levels);
 
       // precompute level depth
       levels.forEach((l, i) => l.forEach((n) => (n.level = i)));
@@ -98,7 +98,7 @@ export default {
       levels.forEach((l, i) => {
         var index = {};
         l.forEach((n) => {
-          console.log(n);
+        //   console.log(n);
           if (n.children.length == 0) {
             return;
           }
