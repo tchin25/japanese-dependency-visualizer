@@ -1,5 +1,5 @@
 <template>
-  <svg width="100%" :height="treeData.layout.height">
+  <svg class="mt-5" width="100%" :height="treeData.layout.height">
     <template v-for="(l, index) in treeData.links" :key="index">
       <path
         :d="
@@ -53,8 +53,11 @@
 import { scaleOrdinal } from "d3-scale";
 import { schemeDark2 } from "d3-scale-chromatic";
 import sentences from "../example-sentences";
+import { unref } from "vue";
+import exampleSentences from '../example-sentences';
 
 export default {
+  inject: ["sentenceFlow"],
   data() {
     return {
       color: scaleOrdinal(schemeDark2),
@@ -77,8 +80,9 @@ export default {
   computed: {
     treeData() {
       // Deep clone array so our modifications don't retrigger computation
-      let levels = JSON.parse(JSON.stringify(sentences.levels));
-    //   console.log(levels);
+    //   let levels = JSON.parse(JSON.stringify(unref(exampleSentences.readable)));
+      let levels = JSON.parse(JSON.stringify(unref(this.sentenceFlow)));
+      //   console.log(levels);
 
       // precompute level depth
       levels.forEach((l, i) => l.forEach((n) => (n.level = i)));
@@ -98,7 +102,7 @@ export default {
       levels.forEach((l, i) => {
         var index = {};
         l.forEach((n) => {
-        //   console.log(n);
+          //   console.log(n);
           if (n.children.length == 0) {
             return;
           }

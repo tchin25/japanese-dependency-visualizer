@@ -47,19 +47,23 @@ export default {
       parentId,
     }) {
       console.log("sentence updated");
+      // TODO: Having index and id is too confusing
 
       // Flatten array of array of objects into array of objects
       let flattened = this.sentenceFlow.value.flat();
 
       // Add child to parent
-      flattened[parentIndex].children.push(childId);
+      if (parentIndex >= 0) {
+        flattened[parentIndex].children.push(childId);
+        flattened[parentIndex].children.sort((a, b) => a - b);
+      }
 
       // Remove child from former parent
       let formerParentIndex = flattened[childIndex].parent;
       if (formerParentIndex >= 0) {
         flattened[formerParentIndex].children = flattened[
           formerParentIndex
-        ].children.filter((i) => i != childIndex);
+        ].children.filter((i) => i != childId);
       }
 
       // Replace child's parent parameter

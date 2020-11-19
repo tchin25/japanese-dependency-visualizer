@@ -1,3 +1,12 @@
-import { ref, reactive, computed } from "vue";
+import { ref, computed } from "vue";
 
-export const sentenceFlow = ref([]);
+const sentenceFlow = ref([]);
+
+const sentenceFlowString = computed(() => JSON.stringify(sentenceFlow.value));
+
+const levelsFlow = computed(() => {
+    let readable = JSON.parse(JSON.stringify(sentenceFlow.value));
+    //TODO
+});
+
+export { sentenceFlow, sentenceFlowString, levelsFlow };
