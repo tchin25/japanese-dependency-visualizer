@@ -6,6 +6,7 @@
         <select v-model="value" @change="onChange">
           <option :value="-1">None</option>
           <template v-for="(token, _index) in tokenizedSentence" :key="_index">
+            <!-- Can't filter array since we need to keep indexes intact so replaced with v-if -->
             <option v-if="index < _index" :value="_index">
               {{ token }}
             </option>
@@ -41,14 +42,9 @@ export default {
   },
   methods: {
     onChange() {
-      console.log("row changed");
-      // Invert index for id because we want to work backwards
       this.$emit("row-change", {
         index: this.index,
-        id: this.tokenizedSentence.length - this.index - 1,
-        label: this.token,
         parentIndex: this.value,
-        parentId: this.tokenizedSentence.length - this.value - 1,
       });
     },
   },

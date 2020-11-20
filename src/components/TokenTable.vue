@@ -28,7 +28,6 @@
 <script>
 import { mapGetters } from "vuex";
 import TokenTableRow from "./TokenTableRow";
-import { unref } from "vue";
 
 export default {
   inject: ["sentenceFlow"],
@@ -41,21 +40,18 @@ export default {
   methods: {
     updateSentence({
       index: childIndex,
-      id: childId,
-      label,
       parentIndex,
-      parentId,
     }) {
       console.log("sentence updated");
-      // TODO: Having index and id is too confusing
 
       // Flatten array of array of objects into array of objects
       let flattened = this.sentenceFlow.value.flat();
 
       // Add child to parent
       if (parentIndex >= 0) {
-        flattened[parentIndex].children.push(childId);
-        flattened[parentIndex].children.sort((a, b) => a - b);
+        flattened[parentIndex].children.push(childIndex);
+        // Sort children descending order
+        flattened[parentIndex].children.sort((a, b) => b - a);
       }
 
       // Remove child from former parent
@@ -63,7 +59,7 @@ export default {
       if (formerParentIndex >= 0) {
         flattened[formerParentIndex].children = flattened[
           formerParentIndex
-        ].children.filter((i) => i != childId);
+        ].children.filter((i) => i != childIndex);
       }
 
       // Replace child's parent parameter
@@ -79,7 +75,7 @@ export default {
         this.sentenceFlow.value = newTokenizedSentence.map((token, index) => {
           return [
             {
-              id: newTokenizedSentence.length - index - 1,
+              id: index,
               label: token,
               children: [],
               parentIndex: -1,
