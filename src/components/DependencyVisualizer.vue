@@ -1,5 +1,5 @@
 <template>
-  <svg class="mt-5" width="100%" :height="treeData.layout.height">
+  <svg class="mt-4" width="100%" :height="treeData.layout.height">
     <template v-for="(l, index) in treeData.links" :key="index">
       <path
         :d="
@@ -132,10 +132,10 @@ export default {
       var bundles = levels.reduce((a, x) => a.concat(x.bundles), []);
 
       // layout
-      const node_height = 40;
+      const node_height = 32;
       const node_width = 80;
       const bundle_width = 16;
-      const level_y_padding = 18;
+      const level_y_padding = 25;
 
       var x_offset = 0;
       var y_offset = 0;
