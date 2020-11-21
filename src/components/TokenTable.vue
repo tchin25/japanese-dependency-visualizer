@@ -50,8 +50,8 @@ export default {
       // Add child to parent
       if (parentIndex >= 0) {
         flattened[parentIndex].children.push(childIndex);
-        // Sort children ascending order
-        flattened[parentIndex].children.sort((a, b) => a - b);
+        // Sort children descending order
+        flattened[parentIndex].children.sort((a, b) => b-a);
       }
 
       // Remove child from former parent

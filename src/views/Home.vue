@@ -12,13 +12,13 @@
 import SentenceInput from "@/components/SentenceInput.vue";
 import TokenTable from "@/components/TokenTable.vue";
 import DependencyVisualizer from "@/components/DependencyVisualizer.vue";
-import { sentenceFlow, sentenceFlowString } from "../api/sentenceFlow";
+import * as sentenceFlow from "../api/sentenceFlow";
 import { provide } from "vue";
 
 export default {
   setup() {
     provide("sentenceFlow", sentenceFlow);
-    return { sentenceFlow, sentenceFlowString };
+    return { ...sentenceFlow };
   },
   name: "Home",
   components: { SentenceInput, TokenTable, DependencyVisualizer },
