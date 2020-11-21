@@ -9,16 +9,23 @@ const levelsFlow = computed(() => {
   let readable = JSON.parse(JSON.stringify(sentenceFlow.value));
   let flow = [];
   flow.unshift(readable[readable.length - 1]);
-    // console.log(sentenceFlow.value)
-//   for (let i = readable.length - 2; i >= 0; i--) {
-//     // Iterate through every token in each level
-//     for (let j = flow[0].length - 1; j >= 0; j--) {
-//       // Iterate through every child in each token
-//       for (let k = 0; k < flow[0][j].children.length; k++) {
-//         let childIndex = flow[0][j].children[k];
-//       }
-//     }
-//   }
+
+  for (let i = 0; i < flow.length; i++) {
+    let children = [];
+    // Iterate through every token in each level
+    for (let j = 0; j < flow[0].length; j++) {
+      // Iterate through every child in each token
+      for (let k = 0; k < flow[0][j].children.length; k++) {
+        let childIndex = flow[0][j].children[k];
+        children.push(readable[childIndex][0]);
+      }
+    }
+
+    if (children.length > 0) {
+      flow.unshift(children);
+    }
+  }
+  console.log(flow)
   return flow;
 });
 
