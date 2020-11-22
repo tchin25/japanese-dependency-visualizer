@@ -61,17 +61,6 @@ export default {
   data() {
     return {
       color: scaleOrdinal(schemeDark2),
-      sentence: [
-        [{ id: 0, label: "僕は" }],
-        [
-          { id: 1, label: "あの" },
-          { id: 2, label: "赤い" },
-        ],
-        [{ id: 3, label: "鞄を", children: [1, 2] }],
-        [{ id: 4, label: "持っている", children: [3] }],
-        [{ id: 5, label: "人が", children: [4] }],
-        [{ id: 6, label: "知っています", children: [5, 0] }],
-      ],
     };
   },
   mounted() {
@@ -80,7 +69,7 @@ export default {
   computed: {
     treeData() {
       // Deep clone array so our modifications don't recursively retrigger computation
-      let levels = JSON.parse(JSON.stringify(unref(exampleSentences.readable_c)));
+      let levels = JSON.parse(JSON.stringify(unref(exampleSentences.levels)));
       // let levels = JSON.parse(JSON.stringify(unref(this.sentenceFlow)));
       //   console.log(levels);
 

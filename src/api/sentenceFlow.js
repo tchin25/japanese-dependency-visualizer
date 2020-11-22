@@ -2,6 +2,18 @@ import { ref, computed } from "vue";
 
 const sentenceFlow = ref([]);
 
+const generateDependency = async (sentence) => {
+  const endpoint = "https://cabocha-nke3uh5gza-uc.a.run.app/";
+  try {
+    let res = await fetch(endpoint + sentence).then(res => res.text());
+    let domParser = new DOMParser();
+    let xml = domParser.parseFromString(res, "text/xml");
+    console.log(xml);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 const sentenceFlowString = computed(() => JSON.stringify(sentenceFlow.value));
 
 // Organized flow into levels from root
@@ -62,4 +74,4 @@ const compactedSentenceFlow = computed(() => {
   return flow;
 });
 
-export { sentenceFlow, sentenceFlowString, levelsFlow, compactedSentenceFlow };
+export { sentenceFlow, sentenceFlowString, levelsFlow, compactedSentenceFlow, generateDependency };
