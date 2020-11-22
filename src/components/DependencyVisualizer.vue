@@ -80,7 +80,7 @@ export default {
   computed: {
     treeData() {
       // Deep clone array so our modifications don't recursively retrigger computation
-      let levels = JSON.parse(JSON.stringify(unref(exampleSentences.readable)));
+      let levels = JSON.parse(JSON.stringify(unref(exampleSentences.readable_c)));
       // let levels = JSON.parse(JSON.stringify(unref(this.sentenceFlow)));
       //   console.log(levels);
 
