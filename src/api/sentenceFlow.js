@@ -2,15 +2,55 @@ import { ref, computed } from "vue";
 
 const sentenceFlow = ref([]);
 
-const generateDependency = async (sentence) => {
+const generateSentenceFlow = async (sentence) => {
+  if (!sentence) {
+    return [];
+  }
+
   const endpoint = "https://cabocha-nke3uh5gza-uc.a.run.app/";
   try {
-    let res = await fetch(endpoint + sentence).then(res => res.text());
+    let res = await fetch(endpoint + sentence).then((res) => res.text());
     let domParser = new DOMParser();
     let xml = domParser.parseFromString(res, "text/xml");
     console.log(xml);
+    let flow = [];
+
+    let tokens = xml.getElementsByTagName("chunk");
+    for (let i = 0; i < tokens.length; i++) {
+      let token = {};
+      let el = tokens[i];
+
+      let text = el.textContent.split("\n");
+      token.label = "";
+      text.forEach((s) => {
+        token.label += s.trim();
+      });
+
+      token.id = parseInt(el.getAttribute("id"));
+      token.parentIndex = parseInt(el.getAttribute("link"));
+      token.children = [];
+      flow.push([token]);
+    }
+
+    // Link parent to child using parentIndex
+    flow.forEach((level) => {
+      const { id, parentIndex } = level[0];
+      // Add child to parent
+      if (parentIndex >= 0) {
+        flow[parentIndex][0].children.push(id);
+      }
+    });
+
+    flow.forEach((level) => {
+      let token = level[0];
+      // Sort children descending order
+      token.children.sort((a, b) => b - a);
+    });
+
+    return flow;
   } catch (e) {
-    console.log(e);
+    console.error(e);
+    return [];
   }
 };
 
@@ -74,4 +114,10 @@ const compactedSentenceFlow = computed(() => {
   return flow;
 });
 
-export { sentenceFlow, sentenceFlowString, levelsFlow, compactedSentenceFlow, generateDependency };
+export {
+  sentenceFlow,
+  sentenceFlowString,
+  levelsFlow,
+  compactedSentenceFlow,
+  generateSentenceFlow,
+};

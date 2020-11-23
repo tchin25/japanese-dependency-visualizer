@@ -38,10 +38,7 @@ export default {
     ...mapGetters(["tokenizedSentence"]),
   },
   methods: {
-    updateSentence({
-      index: childIndex,
-      parentIndex,
-    }) {
+    updateSentence({ index: childIndex, parentIndex }) {
       console.log("sentence updated");
 
       // Flatten array of array of objects into array of objects
@@ -51,7 +48,7 @@ export default {
       if (parentIndex >= 0) {
         flattened[parentIndex].children.push(childIndex);
         // Sort children descending order
-        flattened[parentIndex].children.sort((a, b) => b-a);
+        flattened[parentIndex].children.sort((a, b) => b - a);
       }
 
       // Remove child from former parent
