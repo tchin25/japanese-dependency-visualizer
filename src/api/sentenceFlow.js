@@ -12,7 +12,7 @@ const generateSentenceFlow = async (sentence) => {
     let res = await fetch(endpoint + sentence).then((res) => res.text());
     let domParser = new DOMParser();
     let xml = domParser.parseFromString(res, "text/xml");
-    console.log(xml);
+
     let flow = [];
 
     let tokens = xml.getElementsByTagName("chunk");
@@ -49,8 +49,15 @@ const generateSentenceFlow = async (sentence) => {
 
     return flow;
   } catch (e) {
-    console.error(e);
-    return [];
+    // console.error(e);
+    return [
+      {
+        id: 0,
+        label: sentence,
+        children: [],
+        parentIndex: -1,
+      },
+    ];
   }
 };
 
