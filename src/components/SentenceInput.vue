@@ -34,7 +34,18 @@ export default {
       this.sentenceFlow.sentenceFlow.value = await this.sentenceFlow.generateSentenceFlow(
         this.sentence
       );
-      console.log(this.sentenceFlow.sentenceFlow.value);
+
+      // Craete tokenized sentence
+      // Flatten array of array of objects into array of objects
+      let flattened = this.sentenceFlow.sentenceFlow.value.flat();
+      let tokenized = "";
+      flattened.forEach((token, i) => {
+        if (i != 0) {
+          tokenized += "|";
+        }
+        tokenized += token.label;
+      });
+      this.sentence = tokenized;
     },
   },
 };

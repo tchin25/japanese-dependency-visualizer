@@ -2,7 +2,7 @@
   <tr>
     <td>{{ token }}</td>
     <td>
-      <div class="select">
+      <div class="select is-fullwidth">
         <select v-model="value" @change="onChange">
           <option :value="-1">None</option>
           <template v-for="(token, _index) in tokenizedSentence" :key="_index">
