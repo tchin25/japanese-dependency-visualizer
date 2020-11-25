@@ -1,9 +1,17 @@
 <template>
-  <SentenceInput />
-  {{ sentenceFlowString }}
-  <div style="display: flex;">
-    <TokenTable />
-    <DependencyVisualizer />
+  <div class="section">
+    <div class="container">
+      <SentenceInput />
+      {{ sentenceFlowString }}
+    </div>
+  </div>
+  <div class="section">
+    <div class="container">
+      <div style="display: flex;">
+        <TokenTable />
+        <DependencyVisualizer />
+      </div>
+    </div>
   </div>
 </template>
 

@@ -46,7 +46,7 @@ const generateSentenceFlow = async (sentence) => {
       // Sort children descending order
       token.children.sort((a, b) => b - a);
     });
-
+    console.log(flow)
     return flow;
   } catch (e) {
     // console.error(e);

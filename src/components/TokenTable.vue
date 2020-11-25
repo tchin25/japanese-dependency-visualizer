@@ -64,24 +64,24 @@ export default {
     },
   },
   watch: {
-    tokenizedSentence: {
-      handler: function(newTokenizedSentence) {
-        console.log("handler called");
-        //TODO: merge flows
-        console.log(this.sentenceFlow.value);
-        this.sentenceFlow.value = newTokenizedSentence.map((token, index) => {
-          return [
-            {
-              id: index,
-              label: token,
-              children: [],
-              parentIndex: -1,
-            },
-          ];
-        });
-      },
-      immediate: true,
-    },
+    // tokenizedSentence: {
+    //   handler: function(newTokenizedSentence) {
+    //     console.log("handler called");
+    //     //TODO: merge flows
+    //     console.log(this.sentenceFlow.value);
+    //     this.sentenceFlow.value = newTokenizedSentence.map((token, index) => {
+    //       return [
+    //         {
+    //           id: index,
+    //           label: token,
+    //           children: [],
+    //           parentIndex: -1,
+    //         },
+    //       ];
+    //     });
+    //   },
+    //   immediate: true,
+    // },
   },
 };
 </script>

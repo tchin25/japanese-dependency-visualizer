@@ -69,9 +69,9 @@ export default {
   computed: {
     treeData() {
       // Deep clone array so our modifications don't recursively retrigger computation
-      let levels = JSON.parse(JSON.stringify(unref(exampleSentences.levels)));
-      // let levels = JSON.parse(JSON.stringify(unref(this.sentenceFlow)));
-      //   console.log(levels);
+      // let levels = JSON.parse(JSON.stringify(unref(exampleSentences.levels)));
+      let levels = JSON.parse(JSON.stringify(unref(this.sentenceFlow.compactedSentenceFlow)));
+        console.log(this.sentenceFlow.sentenceFlow);
 
       // precompute level depth
       levels.forEach((l, i) => l.forEach((n) => (n.level = i)));
