@@ -17,8 +17,13 @@
 </template>
 
 <script>
+import { useState, generateSentenceFlow } from "@/api/sentenceFlow";
+
 export default {
-  inject: ["sentenceFlow"],
+  setup() {
+    const { sentenceFlow } = useState();
+    return { sentenceFlow, generateSentenceFlow };
+  },
   computed: {
     sentence: {
       get() {
@@ -31,13 +36,11 @@ export default {
   },
   methods: {
     async setSentenceFlow() {
-      this.sentenceFlow.sentenceFlow.value = await this.sentenceFlow.generateSentenceFlow(
-        this.sentence
-      );
+      this.sentenceFlow = await this.generateSentenceFlow(this.sentence);
 
       // Craete tokenized sentence
       // Flatten array of array of objects into array of objects
-      let flattened = this.sentenceFlow.sentenceFlow.value.flat();
+      let flattened = this.sentenceFlow.flat();
       let tokenized = "";
       flattened.forEach((token, i) => {
         if (i != 0) {

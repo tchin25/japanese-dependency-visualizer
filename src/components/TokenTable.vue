@@ -28,9 +28,13 @@
 <script>
 import { mapGetters } from "vuex";
 import TokenTableRow from "./TokenTableRow";
+import { useState } from "@/api/sentenceFlow";
 
 export default {
-  inject: ["sentenceFlow"],
+  setup() {
+    const sentenceFlow = useState();
+    return { ...sentenceFlow };
+  },
   components: {
     TokenTableRow,
   },

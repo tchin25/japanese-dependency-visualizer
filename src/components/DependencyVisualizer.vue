@@ -54,10 +54,14 @@ import { scaleOrdinal } from "d3-scale";
 import { schemeDark2 } from "d3-scale-chromatic";
 import sentences from "../example-sentences";
 import { unref } from "vue";
-import exampleSentences from '../example-sentences';
+import exampleSentences from "../example-sentences";
+import { useState } from "@/api/sentenceFlow";
 
 export default {
-  inject: ["sentenceFlow"],
+  setup() {
+    const sentenceFlow = useState();
+    return { ...sentenceFlow };
+  },
   data() {
     return {
       color: scaleOrdinal(schemeDark2),
@@ -70,8 +74,10 @@ export default {
     treeData() {
       // Deep clone array so our modifications don't recursively retrigger computation
       // let levels = JSON.parse(JSON.stringify(unref(exampleSentences.levels)));
-      let levels = JSON.parse(JSON.stringify(unref(this.sentenceFlow.compactedSentenceFlow)));
-        console.log(this.sentenceFlow.sentenceFlow);
+      let levels = JSON.parse(
+        JSON.stringify(unref(this.compactedSentenceFlow))
+      );
+      console.log(this.sentenceFlow);
 
       // precompute level depth
       levels.forEach((l, i) => l.forEach((n) => (n.level = i)));
