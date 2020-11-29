@@ -5,6 +5,9 @@ export const generateSentenceFlow = async (sentence) => {
     return [];
   }
 
+  // Reset sentence if flow was previously generated
+  sentence = sentence.split("|").join("");
+
   const endpoint = "https://cabocha-nke3uh5gza-uc.a.run.app/";
   try {
     let res = await fetch(endpoint + sentence).then((res) => res.text());
@@ -66,12 +69,16 @@ export const createState = () => {
 
   // Organized flow into levels from root
   const levelsFlow = computed(() => {
+    if (sentenceFlow.value.length === 0) {
+      return [];
+    }
+
     // Deep clone array so our modifications don't recursively retrigger computation
     let readable = JSON.parse(JSON.stringify(sentenceFlow.value));
-    console.log(sentenceFlow.value)
+    console.log(sentenceFlow.value);
     let flow = [];
     flow.unshift(readable[readable.length - 1]);
-    console.log(flow)
+    console.log(flow);
 
     for (let i = 0; i < flow.length; i++) {
       let children = [];
@@ -94,6 +101,10 @@ export const createState = () => {
 
   // Compacts all nodes without inter-dependencies onto the same level
   const compactedSentenceFlow = computed(() => {
+    if (sentenceFlow.value.length === 0) {
+      return [];
+    }
+
     // Deep clone array so our modifications don't recursively retrigger computation
     let readable = JSON.parse(JSON.stringify(sentenceFlow.value));
     let flow = [];

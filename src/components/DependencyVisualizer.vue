@@ -1,55 +1,63 @@
 <template>
-  <svg class="mt-4" width="100%" :height="treeData.layout.height">
-    <template v-for="(l, index) in treeData.links" :key="index">
-      <path
-        :d="
-          `M${l.xt} ${l.yt}
+  <svg
+    id="flow-graph"
+    class="mt-4"
+    width="100%"
+    :height="treeData.layout.height"
+  >
+    <g class="svg-pan-zoom_viewport">
+      <template v-for="(l, index) in treeData.links" :key="index">
+        <path
+          :d="
+            `M${l.xt} ${l.yt}
          L${l.xb - 16} ${l.yt}
          A16 16 90 0 1 ${l.xb} ${l.yt + 16}
          L${l.xb} ${l.ys - 16}
          A16 16 90 0 0 ${l.xb + 16} ${l.ys}
          L${l.xs} ${l.ys}`
-        "
-        fill="none"
-        :stroke="`${color(l.bundle.id)}`"
-        stroke-width="2"
-      />
-    </template>
-    <template v-for="(n, index) in treeData.nodes" :key="index">
-      <text
-        :x="n.x + 2"
-        :y="n.y - 12"
-        dy="0.35em"
-        stroke="white"
-        stroke-width="4"
-      >
-        {{ n.label }}
-      </text>
-      <line
-        class="node"
-        stroke="black"
-        stroke-width="8"
-        :x1="n.x"
-        :y1="n.y"
-        :x2="n.x"
-        :y2="n.y"
-      />
-      <line
-        class="node"
-        stroke="white"
-        stroke-width="4"
-        :x1="n.x"
-        :y1="n.y"
-        :x2="n.x"
-        :y2="n.y"
-      />
-      <text :x="n.x + 2" :y="n.y - 12" dy="0.35em">{{ n.label }}</text>
-    </template>
+          "
+          fill="none"
+          :stroke="`${color(l.bundle.id)}`"
+          stroke-width="2"
+        />
+      </template>
+      <template v-for="(n, index) in treeData.nodes" :key="index">
+        <text
+          :x="n.x + 2"
+          :y="n.y - 14"
+          dy="0.35em"
+          stroke="white"
+          stroke-width="4"
+        >
+          {{ n.label }}
+        </text>
+        <line
+          class="node"
+          stroke="black"
+          stroke-width="8"
+          :x1="n.x"
+          :y1="n.y"
+          :x2="n.x"
+          :y2="n.y"
+        />
+        <line
+          class="node"
+          stroke="white"
+          stroke-width="4"
+          :x1="n.x"
+          :y1="n.y"
+          :x2="n.x"
+          :y2="n.y"
+        />
+        <text :x="n.x + 2" :y="n.y - 14" dy="0.35em">{{ n.label }}</text>
+      </template>
+    </g>
   </svg>
 </template>
 
 <script>
 // import * as d3 from "d3";
+import svgPanZoom from "svg-pan-zoom";
 import { scaleOrdinal } from "d3-scale";
 import { schemeDark2 } from "d3-scale-chromatic";
 import sentences from "../example-sentences";
@@ -74,9 +82,7 @@ export default {
     treeData() {
       // Deep clone array so our modifications don't recursively retrigger computation
       // let levels = JSON.parse(JSON.stringify(unref(exampleSentences.levels)));
-      let levels = JSON.parse(
-        JSON.stringify(unref(this.compactedSentenceFlow))
-      );
+      let levels = JSON.parse(JSON.stringify(unref(this.levelsFlow)));
       console.log(this.sentenceFlow);
 
       // precompute level depth
@@ -173,6 +179,14 @@ export default {
       };
 
       return { levels, nodes, nodes_index, links, bundles, layout };
+    },
+  },
+  watch: {
+    treeData() {
+      // Wait till svg is populated before instantiating
+      this.$nextTick(function() {
+        svgPanZoom("#flow-graph");
+      });
     },
   },
 };
