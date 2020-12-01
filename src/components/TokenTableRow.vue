@@ -5,9 +5,14 @@
       <div class="select is-fullwidth">
         <select v-model="value" @change="onChange">
           <option :value="-1">None</option>
-          <template v-for="(token, _index) in sentenceFlow" :key="_index">
-            <!-- Can't filter array since we need to keep indexes intact so replaced with v-if -->
-            <option v-if="index < _index" :value="_index">
+          <!-- Filter array to only show possible parents -->
+          <template
+            v-for="token in sentenceFlow.filter(
+              (token, parentIndex) => index < parentIndex
+            )"
+            :key="token[0].id"
+          >
+            <option :value="token[0].id">
               {{ token[0].label }}
             </option>
           </template>
@@ -23,13 +28,17 @@ import { useState } from "@/api/sentenceFlow";
 
 export default {
   setup() {
-    const {sentenceFlow} = useState();
+    const { sentenceFlow } = useState();
     return { sentenceFlow };
   },
   props: {
     token: {
       required: true,
       type: String,
+    },
+    id: {
+      required: true,
+      type: Number,
     },
     index: {
       required: true,
@@ -47,9 +56,17 @@ export default {
   },
   methods: {
     onChange() {
+      // Find parent index
+      // We can't get the index from the select tag because index could change at any time
+      let parentIndex = this.sentenceFlow.findIndex((el) => {
+        el[0].id === this.value;
+      });
+
       this.$emit("row-change", {
+        id: this.id,
         index: this.index,
-        parentIndex: this.value,
+        parentId: this.value,
+        parentIndex,
       });
     },
   },

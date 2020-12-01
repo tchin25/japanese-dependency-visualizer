@@ -34,10 +34,20 @@ export default {
       set(value) {
         let tokenized = value.split("|");
 
-        if (tokenized.length != this.sentenceFlow.length) {
-          // TODO: Merge sentence
+        if (tokenized.length > this.sentenceFlow.length) {
+          // Insert new token between old ones
+          for (let i = 0; i < tokenized.length; i++) {
+            if (this.sentenceFlow[i][0].label !== tokenized[i]) {
+              
+            }
+          }
+        } else if (tokenized.length < this.sentenceFlow.length) {
+          // Merge two tokens together
+          for (let i = 0; i < this.sentenceFlow.length; i++) {
+            if (this.sentenceFlow[i][0].label !== tokenized[i]) {
 
-
+            }
+          }
         } else {
           for (let i = 0; i < tokenized.length; i++) {
             this.sentenceFlow[i][0].label = tokenized[i];

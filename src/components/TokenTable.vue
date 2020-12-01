@@ -9,6 +9,7 @@
         @row-change="updateSentence"
         v-for="(token, index) in sentenceFlow.slice(0, -1)"
         :token="token[0].label"
+        :id="token[0].id"
         :index="index"
         :key="index"
       >
@@ -32,7 +33,7 @@ import { useState } from "@/api/sentenceFlow";
 
 export default {
   setup() {
-    const {sentenceFlow} = useState();
+    const { sentenceFlow } = useState();
     return { sentenceFlow };
   },
   components: {
@@ -42,7 +43,7 @@ export default {
     ...mapGetters(["tokenizedSentence"]),
   },
   methods: {
-    updateSentence({ index: childIndex, parentIndex }) {
+    updateSentence({ id, index, parentId, parentIndex }) {
       console.log("sentence updated");
 
       // Flatten array of array of objects into array of objects
@@ -50,21 +51,23 @@ export default {
 
       // Add child to parent
       if (parentIndex >= 0) {
-        flattened[parentIndex].children.push(childIndex);
+        flattened[parentIndex].children.push(id);
         // Sort children descending order
         flattened[parentIndex].children.sort((a, b) => b - a);
       }
 
       // Remove child from former parent
-      let formerParentIndex = flattened[childIndex].parentIndex;
+      let formerParentIndex = flattened.findIndex((el) => {
+        flattened[index].parentId === el.id;
+      });
       if (formerParentIndex >= 0) {
         flattened[formerParentIndex].children = flattened[
           formerParentIndex
-        ].children.filter((i) => i != childIndex);
+        ].children.filter((i) => i != id);
       }
 
       // Replace child's parent parameter
-      flattened[childIndex].parentIndex = parentIndex;
+      flattened[index].parentId = parentId;
     },
   },
   watch: {
