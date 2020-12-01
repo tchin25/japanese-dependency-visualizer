@@ -5,10 +5,10 @@
       <div class="select is-fullwidth">
         <select v-model="value" @change="onChange">
           <option :value="-1">None</option>
-          <template v-for="(token, _index) in tokenizedSentence" :key="_index">
+          <template v-for="(token, _index) in sentenceFlow" :key="_index">
             <!-- Can't filter array since we need to keep indexes intact so replaced with v-if -->
             <option v-if="index < _index" :value="_index">
-              {{ token }}
+              {{ token[0].label }}
             </option>
           </template>
         </select>
@@ -19,8 +19,13 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { useState } from "@/api/sentenceFlow";
 
 export default {
+  setup() {
+    const {sentenceFlow} = useState();
+    return { sentenceFlow };
+  },
   props: {
     token: {
       required: true,

@@ -73,6 +73,7 @@ export default {
   data() {
     return {
       color: scaleOrdinal(schemeDark2),
+      panZoom: null,
     };
   },
   mounted() {
@@ -82,7 +83,9 @@ export default {
     treeData() {
       // Deep clone array so our modifications don't recursively retrigger computation
       // let levels = JSON.parse(JSON.stringify(unref(exampleSentences.levels)));
-      let levels = JSON.parse(JSON.stringify(unref(this.levelsFlow)));
+      let levels = JSON.parse(
+        JSON.stringify(unref(this.compactedSentenceFlow))
+      );
       console.log(this.sentenceFlow);
 
       // precompute level depth
@@ -185,7 +188,11 @@ export default {
     treeData() {
       // Wait till svg is populated before instantiating
       this.$nextTick(function() {
-        svgPanZoom("#flow-graph");
+        this.panZoom = svgPanZoom("#flow-graph");
+        // this.panZoom.updateBBox();
+        // this.panZoom.resize();
+        // this.panZoom.fit();
+        this.panZoom.center();
       });
     },
   },

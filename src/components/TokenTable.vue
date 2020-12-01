@@ -7,15 +7,15 @@
     <tbody>
       <TokenTableRow
         @row-change="updateSentence"
-        v-for="(token, index) in tokenizedSentence.slice(0, -1)"
-        :token="token"
+        v-for="(token, index) in sentenceFlow.slice(0, -1)"
+        :token="token[0].label"
         :index="index"
         :key="index"
       >
       </TokenTableRow>
-      <tr v-if="tokenizedSentence.length > 0">
+      <tr v-if="sentenceFlow.length > 0">
         <td>
-          {{ tokenizedSentence[tokenizedSentence.length - 1] }}
+          {{ sentenceFlow[sentenceFlow.length - 1][0].label }}
         </td>
         <td>
           Root Node
@@ -32,8 +32,8 @@ import { useState } from "@/api/sentenceFlow";
 
 export default {
   setup() {
-    const sentenceFlow = useState();
-    return { ...sentenceFlow };
+    const {sentenceFlow} = useState();
+    return { sentenceFlow };
   },
   components: {
     TokenTableRow,

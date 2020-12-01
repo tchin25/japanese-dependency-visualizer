@@ -27,10 +27,22 @@ export default {
   computed: {
     sentence: {
       get() {
-        return this.$store.state.sentence;
+        return this.sentenceFlow.reduce((acc, curr) => {
+          acc += "|" + curr[0].label;
+        }, "");
       },
       set(value) {
-        this.$store.commit("updateSentence", value);
+        let tokenized = value.split("|");
+
+        if (tokenized.length != this.sentenceFlow.length) {
+          // TODO: Merge sentence
+
+
+        } else {
+          for (let i = 0; i < tokenized.length; i++) {
+            this.sentenceFlow[i][0].label = tokenized[i];
+          }
+        }
       },
     },
   },
