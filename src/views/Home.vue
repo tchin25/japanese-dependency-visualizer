@@ -2,7 +2,6 @@
   <div class="section">
     <div class="container">
       <SentenceInput />
-      {{ sentenceFlowString }}
     </div>
   </div>
   <div class="section">

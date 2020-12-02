@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import { useState } from "@/api/sentenceFlow";
 
 export default {
@@ -49,10 +48,6 @@ export default {
     return {
       value: -1,
     };
-  },
-  mounted() {},
-  computed: {
-    ...mapGetters(["tokenizedSentence"]),
   },
   methods: {
     onChange() {
