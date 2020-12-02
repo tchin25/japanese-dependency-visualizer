@@ -1,5 +1,5 @@
 import exampleSentences from "@/example-sentences";
-import * as sentenceFlowAPI from "@/api/sentenceFlow";
+import { createState, generateSentenceFlow } from "@/api/sentenceFlow";
 
 describe("sentenceFlow", () => {
   describe("generateSentenceFlow()", () => {
@@ -12,7 +12,7 @@ describe("sentenceFlow", () => {
 
       // Use toMatchObject because we don't care about extra properties
       expect(
-        await sentenceFlowAPI.generateSentenceFlow(
+        await generateSentenceFlow(
           `店内に散らばっている無数の音たちから情報を拾いながら、私の身体は納品されたばかりのおにぎりを並べている`
         )
       ).toMatchObject(exampleSentences.readable);
@@ -24,35 +24,36 @@ describe("sentenceFlow", () => {
     it("Returns flow with one token on api failure", async () => {
       fetch.mockImplementationOnce(() => Promise.reject("API is down"));
       expect(
-        await sentenceFlowAPI.generateSentenceFlow(
+        await generateSentenceFlow(
           `店内に散らばっている無数の音たちから情報を拾いながら、私の身体は納品されたばかりのおにぎりを並べている`
         )
       ).toEqual([
-        {
-          id: 0,
-          label:
-            "店内に散らばっている無数の音たちから情報を拾いながら、私の身体は納品されたばかりのおにぎりを並べている",
-          children: [],
-          parentIndex: -1,
-        },
+        [
+          {
+            id: 0,
+            label:
+              "店内に散らばっている無数の音たちから情報を拾いながら、私の身体は納品されたばかりのおにぎりを並べている",
+            children: [],
+            parentId: -1,
+          },
+        ],
       ]);
     });
   });
 
-  it("Correctly computed levelsFlow", () => {
-    sentenceFlowAPI.sentenceFlow.value = exampleSentences.readable;
-    expect(sentenceFlowAPI.levelsFlow.value).toEqual(exampleSentences.levels);
-    sentenceFlowAPI.sentenceFlow.value = exampleSentences.readable2;
-    expect(sentenceFlowAPI.levelsFlow.value).toEqual(exampleSentences.levels2);
-  });
-  it("Correctly computed compactedSentenceFlow", () => {
-    sentenceFlowAPI.sentenceFlow.value = exampleSentences.readable;
-    expect(sentenceFlowAPI.compactedSentenceFlow.value).toEqual(
-      exampleSentences.readable_c
-    );
-    sentenceFlowAPI.sentenceFlow.value = exampleSentences.readable2;
-    expect(sentenceFlowAPI.compactedSentenceFlow.value).toEqual(
-      exampleSentences.readable2_c
-    );
+  describe("Computed flows from createState()", () => {
+    let { sentenceFlow, levelsFlow, compactedSentenceFlow } = createState();
+    it("Correctly computed levelsFlow", () => {
+      sentenceFlow.value = exampleSentences.readable;
+      expect(levelsFlow.value).toEqual(exampleSentences.levels);
+      sentenceFlow.value = exampleSentences.readable2;
+      expect(levelsFlow.value).toEqual(exampleSentences.levels2);
+    });
+    it("Correctly computed compactedSentenceFlow", () => {
+      sentenceFlow.value = exampleSentences.readable;
+      expect(compactedSentenceFlow.value).toEqual(exampleSentences.readable_c);
+      sentenceFlow.value = exampleSentences.readable2;
+      expect(compactedSentenceFlow.value).toEqual(exampleSentences.readable2_c);
+    });
   });
 });

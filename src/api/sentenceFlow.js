@@ -51,7 +51,14 @@ export const generateSentenceFlow = async (sentence) => {
     return flow;
   } catch (e) {
     // console.error(e);
-    return [];
+    return [[
+      {
+        id: 0,
+        label: sentence,
+        children: [],
+        parentId: -1,
+      },
+    ]];
   }
 };
 
