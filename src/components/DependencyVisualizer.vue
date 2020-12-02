@@ -84,7 +84,7 @@ export default {
       // Deep clone array so our modifications don't recursively retrigger computation
       // let levels = JSON.parse(JSON.stringify(unref(exampleSentences.levels)));
       let levels = JSON.parse(
-        JSON.stringify(unref(this.compactedSentenceFlow))
+        JSON.stringify(unref(this.sentenceFlow))
       );
       console.log(this.sentenceFlow);
 

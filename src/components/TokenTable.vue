@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import TokenTableRow from "./TokenTableRow";
 import { useState } from "@/api/sentenceFlow";
 
@@ -39,15 +38,12 @@ export default {
   components: {
     TokenTableRow,
   },
-  computed: {
-    ...mapGetters(["tokenizedSentence"]),
-  },
   methods: {
     updateSentence({ id, index, parentId, parentIndex }) {
       console.log("sentence updated");
 
       // Flatten array of array of objects into array of objects
-      let flattened = this.sentenceFlow.value.flat();
+      let flattened = this.sentenceFlow.flat();
 
       // Add child to parent
       if (parentIndex >= 0) {
@@ -69,26 +65,6 @@ export default {
       // Replace child's parent parameter
       flattened[index].parentId = parentId;
     },
-  },
-  watch: {
-    // tokenizedSentence: {
-    //   handler: function(newTokenizedSentence) {
-    //     console.log("handler called");
-    //     //TODO: merge flows
-    //     console.log(this.sentenceFlow.value);
-    //     this.sentenceFlow.value = newTokenizedSentence.map((token, index) => {
-    //       return [
-    //         {
-    //           id: index,
-    //           label: token,
-    //           children: [],
-    //           parentIndex: -1,
-    //         },
-    //       ];
-    //     });
-    //   },
-    //   immediate: true,
-    // },
   },
 };
 </script>

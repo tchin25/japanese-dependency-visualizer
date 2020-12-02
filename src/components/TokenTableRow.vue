@@ -58,10 +58,10 @@ export default {
     onChange() {
       // Find parent index
       // We can't get the index from the select tag because index could change at any time
-      let parentIndex = this.sentenceFlow.findIndex((el) => {
-        el[0].id === this.value;
-      });
-
+      let parentIndex = this.sentenceFlow.findIndex(
+        (el) => el[0].id === this.value
+      );
+      
       this.$emit("row-change", {
         id: this.id,
         index: this.index,
