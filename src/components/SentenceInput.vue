@@ -48,7 +48,7 @@ export default {
                 id: 0,
                 label: tokenized[0],
                 children: [],
-                parentIndex: -1,
+                parentId: -1,
               },
             ]);
             return;
