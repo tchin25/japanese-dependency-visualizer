@@ -38,9 +38,9 @@ export default {
         }, "");
       },
       set(value) {
+        // TODO: Support paste with tokenizer
+
         let tokenized = value.split("|");
-        console.log("tokenized");
-        console.log(tokenized);
         if (tokenized.length > this.sentenceFlow.length) {
           if (tokenized.length === 1) {
             this.sentenceFlow.push([
@@ -53,8 +53,6 @@ export default {
             ]);
             return;
           }
-
-          console.log(this.sentenceFlow.length);
 
           // Get id for new token
           const id =
@@ -91,6 +89,8 @@ export default {
             }
           }
         } else if (tokenized.length < this.sentenceFlow.length) {
+          // TODO: Support bulk delete
+
           for (let i = 0; i < this.sentenceFlow.length; i++) {
             // If the token at the end was deleted
             if (i === tokenized.length) {
@@ -100,16 +100,43 @@ export default {
 
             // Merge two tokens together
             if (this.sentenceFlow[i][0].label !== tokenized[i]) {
-              this.sentenceFlow[i][0].label += this.sentenceFlow[
-                i + 1
-              ][0].label;
-              this.sentenceFlow[i][0].parentId = this.sentenceFlow[
-                i + 1
-              ][0].parentId;
-              this.sentenceFlow[i][0].children = this.sentenceFlow[
-                i
-              ][0].children.concat(this.sentenceFlow[i + 1][0].children);
-              this.sentenceFlow[i][0].children.sort((a, b) => b - a);
+              const toSave = this.sentenceFlow[i][0];
+              const toDelete = this.sentenceFlow[i + 1][0];
+
+              // Merges Label
+              toSave.label += toDelete.label;
+
+              // Delete child from former parent
+              const formerParentId = toDelete.parentId;
+              const childId = toDelete.id;
+              const formerParent = this.sentenceFlow.find(
+                (el) => el[0].id === formerParentId
+              );
+
+              if (formerParent) {
+                console.log(formerParent[0]);
+                console.log(childId);
+                formerParent[0].children = formerParent[0].children.filter(
+                  (el) => el != childId
+                );
+              }
+
+              // Update parent
+              toSave.parentId = toDelete.parentId;
+
+              // Combines children and sorts
+              toSave.children = toSave.children.concat(toDelete.children);
+              toSave.children.sort((a, b) => b - a);
+
+              // Sets parentId of orphaned children
+              toDelete.children.forEach((childId) => {
+                let child = this.sentenceFlow.find(
+                  (el) => el[0].id === childId
+                );
+                if (child) {
+                  child.parentId = toSave.parentId;
+                }
+              });
 
               // Delete merged token
               this.sentenceFlow.splice(i + 1, 1);
