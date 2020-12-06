@@ -99,6 +99,19 @@ describe("SentenceInput.vue", () => {
           ],
         };
         SentenceInput.computed.sentence.set.apply(localThis, ["b|b|d|c"]);
+        expect(localThis.sentenceFlow).toMatchObject([
+          [{ id: 1, label: "b", children: [], parentId: -1 }],
+          [{ id: 4, label: "b", children: [], parentId: 3 }],
+          [{ id: 3, label: "d", children: [4], parentId: 2 }],
+          [{ id: 2, label: "c", children: [3], parentId: -1 }],
+        ]);
+        
+        SentenceInput.computed.sentence.set.apply(localThis, ["b|b|c"]);
+        expect(localThis.sentenceFlow).toMatchObject([
+          [{ id: 1, label: "b", children: [], parentId: -1 }],
+          [{ id: 4, label: "b", children: [], parentId: -1 }],
+          [{ id: 2, label: "c", children: [], parentId: -1 }],
+        ]);
       });
 
       it("Deletes token from beginning of sentenceFlow", () => {

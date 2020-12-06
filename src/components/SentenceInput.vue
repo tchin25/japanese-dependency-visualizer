@@ -119,8 +119,7 @@ export default {
             // Token was deleted
             if (
               this.sentenceFlow[i][0].label !== tokenized[i] &&
-              this.sentenceFlow[i + 1][0].label === tokenized[i] &&
-              i !== tokenized.length - 1
+              this.sentenceFlow[i + 1][0].label === tokenized[i]
             ) {
               const toDelete = this.sentenceFlow[i][0];
 
@@ -157,9 +156,10 @@ export default {
 
               // Detect between removing last token vs merging it
               if (i === tokenized.length - 1) {
+                // This is to fix the issue that a|b|c removing |c returns a|bc instead of a|b
                 if (this.sentenceFlow[i][0].label === tokenized[i]) {
                   toDelete.label = "";
-                }
+                } 
               }
 
               // Filter for edge case where toSave was child of toDelete
