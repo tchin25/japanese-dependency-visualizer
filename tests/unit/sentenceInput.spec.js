@@ -82,20 +82,39 @@ describe("SentenceInput.vue", () => {
         ]);
       });
 
-      //   it("Deletes token from beginning of sentenceFlow", () => {
-      //     let localThis = {
-      //       sentenceFlow: [
-      //         [{ id: 1, label: "b", children: [], parentId: 0 }],
-      //         [{ id: 0, label: "ad", children: [1], parentId: 2 }],
-      //         [{ id: 2, label: "c", children: [0], parentId: -1 }],
-      //       ],
-      //     };
-      //     SentenceInput.computed.sentence.set.apply(localThis, ["ad|c"]);
-      //     expect(localThis.sentenceFlow).toMatchObject([
-      //       [{ id: 3, label: "ad", children: [], parentId: 2 }],
-      //       [{ id: 2, label: "c", children: [0], parentId: -1 }],
-      //     ]);
-      //   });
+      it("Removes token from middle of sentenceFlow", () => {
+        let localThis = {
+          sentenceFlow: [
+            [{ id: 1, label: "b", children: [], parentId: 0 }],
+            [{ id: 4, label: "b", children: [], parentId: 3 }],
+            [{ id: 0, label: "a", children: [1], parentId: 2 }],
+            [{ id: 3, label: "d", children: [4], parentId: 2 }],
+            [{ id: 2, label: "c", children: [3, 0], parentId: -1 }],
+          ],
+        };
+        SentenceInput.computed.sentence.set.apply(localThis, ["b|b|d|c"]);
+        expect(localThis.sentenceFlow).toMatchObject([
+          [{ id: 1, label: "b", children: [], parentId: -1 }],
+          [{ id: 4, label: "b", children: [], parentId: 3 }],
+          [{ id: 3, label: "d", children: [4], parentId: 2 }],
+          [{ id: 2, label: "c", children: [3], parentId: -1 }],
+        ]);
+      });
+
+      it("Deletes token from beginning of sentenceFlow", () => {
+        let localThis = {
+          sentenceFlow: [
+            [{ id: 1, label: "b", children: [], parentId: 0 }],
+            [{ id: 0, label: "ad", children: [1], parentId: 2 }],
+            [{ id: 2, label: "c", children: [0], parentId: -1 }],
+          ],
+        };
+        SentenceInput.computed.sentence.set.apply(localThis, ["ad|c"]);
+        expect(localThis.sentenceFlow).toMatchObject([
+          [{ id: 0, label: "ad", children: [], parentId: 2 }],
+          [{ id: 2, label: "c", children: [0], parentId: -1 }],
+        ]);
+      });
 
       it("Deletes token from end of sentenceFlow", () => {
         let localThis = {

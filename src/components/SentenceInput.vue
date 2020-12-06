@@ -38,10 +38,36 @@ export default {
         }, "");
       },
       set(value) {
+        if (value === "") {
+          this.sentenceFlow = [];
+          return;
+        }
+
         // TODO: Support paste with tokenizer
 
         let tokenized = value.split("|");
-        if (tokenized.length > this.sentenceFlow.length) {
+
+        // Attempt to preverve metadata of tokens
+        // Only works for single-token changes
+        const diff = tokenized.length - this.sentenceFlow.length;
+
+        // If change is more than a single token, reset everything
+        if (Math.abs(diff) !== 1 && diff !== 0) {
+          this.sentenceFlow = [];
+          tokenized.forEach((token, i) => {
+            this.sentenceFlow.push([
+              {
+                id: i,
+                label: token,
+                children: [],
+                parentId: -1,
+              },
+            ]);
+          });
+          return;
+        }
+
+        if (diff === 1) {
           if (tokenized.length === 1) {
             this.sentenceFlow.push([
               {
@@ -88,15 +114,44 @@ export default {
               break;
             }
           }
-        } else if (tokenized.length < this.sentenceFlow.length) {
-          // TODO: Support bulk delete
+        } else if (diff === -1) {
+          // If token was deleted, destroy all links and shift array
+          // If tokenizer between tokens was delete, merge tokens
+          // If the token at the end was deleted, sets new last token as root
 
           for (let i = 0; i < this.sentenceFlow.length - 1; i++) {
-            // If the token at the end was deleted
-            if (i === tokenized.length - 1) {
-              console.log("deleting last token");
+            // Token was deleted
+            if (
+              this.sentenceFlow[i][0].label !== tokenized[i] &&
+              this.sentenceFlow[i + 1][0].label === tokenized[i] &&
+              i !== tokenized.length - 1
+            ) {
+              const toDelete = this.sentenceFlow[i][0];
+
+              // Sets parentId of orphaned children
+              toDelete.children.forEach((childId) => {
+                let child = this.sentenceFlow.find(
+                  (el) => el[0].id === childId
+                )[0];
+                if (child) {
+                  child.parentId = -1;
+                }
+              });
+              const formerParent = this.sentenceFlow.find(
+                (el) => el[0].id === toDelete.parentId
+              );
+
+              if (formerParent) {
+                formerParent[0].children = formerParent[0].children.filter(
+                  (el) => el != toDelete.id
+                );
+              }
+
+              this.sentenceFlow.splice(i, 1);
+              return;
             }
-            // Merge two tokens together
+
+            // Tokenizer was deleted and have to merge two tokens together
             if (
               this.sentenceFlow[i][0].label !== tokenized[i] ||
               i === tokenized.length - 1
@@ -106,6 +161,11 @@ export default {
               if (i === tokenized.length - 1) {
                 toDelete.label = "";
               }
+
+              // Filter for edge case where toSave was child of toDelete
+              toDelete.children = toDelete.children.filter(
+                (el) => el !== toSave.id
+              );
 
               // Merges Label
               toSave.label += toDelete.label;
@@ -139,10 +199,7 @@ export default {
               // Combines children and sorts
               toSave.children = toSave.children.concat(toDelete.children);
               toSave.children.sort((a, b) => b - a);
-              // Filter for edge case where toSave was child of toDelete
-              toSave.children = toSave.children.filter(
-                (el) => el !== toSave.id
-              );
+
               console.log(toSave);
 
               // Sets parentId of orphaned children
@@ -150,7 +207,7 @@ export default {
                 let child = this.sentenceFlow.find(
                   (el) => el[0].id === childId
                 )[0];
-                if (child && child.id !== toSave.id) {
+                if (child) {
                   child.parentId = toSave.id;
                 }
               });
