@@ -28,17 +28,17 @@ export const generateSentenceFlow = async (sentence) => {
       });
 
       token.id = parseInt(el.getAttribute("id"));
-      token.parentIndex = parseInt(el.getAttribute("link"));
+      token.parentId = parseInt(el.getAttribute("link"));
       token.children = [];
       flow.push([token]);
     }
 
-    // Link parent to child using parentIndex
+    // Link parent to child using parentIndex, which right now is parentId
     flow.forEach((level) => {
-      const { id, parentIndex } = level[0];
+      const { id, parentId } = level[0];
       // Add child to parent
-      if (parentIndex >= 0) {
-        flow[parentIndex][0].children.push(id);
+      if (parentId >= 0) {
+        flow[parentId][0].children.push(id);
       }
     });
 

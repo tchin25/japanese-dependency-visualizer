@@ -10,7 +10,7 @@
         value="Submit"
         @click="setSentenceFlow"
       >
-        Generate Flow
+        Auto-Generate Flow
       </button>
     </div>
   </div>
