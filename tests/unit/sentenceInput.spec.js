@@ -80,6 +80,12 @@ describe("SentenceInput.vue", () => {
           [{ id: 0, label: "ad", children: [4, 1], parentId: 2 }],
           [{ id: 2, label: "c", children: [0], parentId: -1 }],
         ]);
+        SentenceInput.computed.sentence.set.apply(localThis, ["b|b|adc"]);
+        expect(localThis.sentenceFlow).toMatchObject([
+          [{ id: 1, label: "b", children: [], parentId: 0 }],
+          [{ id: 4, label: "b", children: [], parentId: 0 }],
+          [{ id: 0, label: "adc", children: [4, 1], parentId: -1 }],
+        ]);
       });
 
       it("Removes token from middle of sentenceFlow", () => {
@@ -93,12 +99,6 @@ describe("SentenceInput.vue", () => {
           ],
         };
         SentenceInput.computed.sentence.set.apply(localThis, ["b|b|d|c"]);
-        expect(localThis.sentenceFlow).toMatchObject([
-          [{ id: 1, label: "b", children: [], parentId: -1 }],
-          [{ id: 4, label: "b", children: [], parentId: 3 }],
-          [{ id: 3, label: "d", children: [4], parentId: 2 }],
-          [{ id: 2, label: "c", children: [3], parentId: -1 }],
-        ]);
       });
 
       it("Deletes token from beginning of sentenceFlow", () => {

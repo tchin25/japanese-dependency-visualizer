@@ -38,12 +38,12 @@ export default {
         }, "");
       },
       set(value) {
+        // TODO: Make this code less cursed
+
         if (value === "") {
           this.sentenceFlow = [];
           return;
         }
-
-        // TODO: Support paste with tokenizer
 
         let tokenized = value.split("|");
 
@@ -98,15 +98,11 @@ export default {
                   parentIndex: -1,
                 },
               ]);
-              console.log("pushed new token");
-              console.log(this.sentenceFlow);
               break;
             }
 
             // Insert new token between old ones
             if (this.sentenceFlow[i][0].label !== tokenized[i]) {
-              console.log("Inserting new token");
-
               this.sentenceFlow.splice(i, 0, [
                 { id, label: tokenized[i], children: [], parentId: -1 },
               ]);
@@ -158,8 +154,12 @@ export default {
             ) {
               const toSave = this.sentenceFlow[i][0];
               const toDelete = this.sentenceFlow[i + 1][0];
+
+              // Detect between removing last token vs merging it
               if (i === tokenized.length - 1) {
-                toDelete.label = "";
+                if (this.sentenceFlow[i][0].label === tokenized[i]) {
+                  toDelete.label = "";
+                }
               }
 
               // Filter for edge case where toSave was child of toDelete
@@ -194,13 +194,10 @@ export default {
 
               // Update parent
               toSave.parentId = toDelete.parentId;
-              console.log(toSave);
 
               // Combines children and sorts
               toSave.children = toSave.children.concat(toDelete.children);
               toSave.children.sort((a, b) => b - a);
-
-              console.log(toSave);
 
               // Sets parentId of orphaned children
               toDelete.children.forEach((childId) => {
