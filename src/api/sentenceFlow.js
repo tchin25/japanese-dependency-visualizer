@@ -157,5 +157,5 @@ export const createState = () => {
 };
 
 const stateSymbol = Symbol("state");
-export const useState = () => inject(stateSymbol);
+export const useState = () => inject(stateSymbol, createState());
 export const provideState = () => provide(stateSymbol, createState());

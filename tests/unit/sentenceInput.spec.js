@@ -1,5 +1,6 @@
 import exampleSentences from "@/example-sentences";
 import SentenceInput from "@/components/SentenceInput.vue";
+import { createState } from "@/api/sentenceFlow";
 
 describe("SentenceInput.vue", () => {
   describe("Computed sentence", () => {
@@ -70,21 +71,22 @@ describe("SentenceInput.vue", () => {
             [{ id: 4, label: "b", children: [], parentId: 3 }],
             [{ id: 0, label: "a", children: [1], parentId: 2 }],
             [{ id: 3, label: "d", children: [4], parentId: 2 }],
-            [{ id: 2, label: "c", children: [3, 0], parentId: -1 }],
+            [{ id: 2, label: "c", children: [0, 3], parentId: -1 }],
           ],
+          sortTokenChildren: createState().sortTokenChildren,
         };
         SentenceInput.computed.sentence.set.apply(localThis, ["b|b|ad|c"]);
         expect(localThis.sentenceFlow).toMatchObject([
           [{ id: 1, label: "b", children: [], parentId: 0 }],
           [{ id: 4, label: "b", children: [], parentId: 0 }],
-          [{ id: 0, label: "ad", children: [4, 1], parentId: 2 }],
+          [{ id: 0, label: "ad", children: [1, 4], parentId: 2 }],
           [{ id: 2, label: "c", children: [0], parentId: -1 }],
         ]);
         SentenceInput.computed.sentence.set.apply(localThis, ["b|b|adc"]);
         expect(localThis.sentenceFlow).toMatchObject([
           [{ id: 1, label: "b", children: [], parentId: 0 }],
           [{ id: 4, label: "b", children: [], parentId: 0 }],
-          [{ id: 0, label: "adc", children: [4, 1], parentId: -1 }],
+          [{ id: 0, label: "adc", children: [1, 4], parentId: -1 }],
         ]);
       });
 
@@ -105,7 +107,7 @@ describe("SentenceInput.vue", () => {
           [{ id: 3, label: "d", children: [4], parentId: 2 }],
           [{ id: 2, label: "c", children: [3], parentId: -1 }],
         ]);
-        
+
         SentenceInput.computed.sentence.set.apply(localThis, ["b|b|c"]);
         expect(localThis.sentenceFlow).toMatchObject([
           [{ id: 1, label: "b", children: [], parentId: -1 }],
@@ -136,6 +138,7 @@ describe("SentenceInput.vue", () => {
             [{ id: 0, label: "ad", children: [], parentId: 2 }],
             [{ id: 2, label: "c", children: [1, 0], parentId: -1 }],
           ],
+          sortTokenChildren: createState().sortTokenChildren,
         };
         SentenceInput.computed.sentence.set.apply(localThis, ["b|ad"]);
         expect(localThis.sentenceFlow).toMatchObject([
