@@ -32,8 +32,8 @@ import { useState } from "@/api/sentenceFlow";
 
 export default {
   setup() {
-    const { sentenceFlow } = useState();
-    return { sentenceFlow };
+    const { sentenceFlow, sortTokenChildren } = useState();
+    return { sentenceFlow, sortTokenChildren };
   },
   components: {
     TokenTableRow,
@@ -48,18 +48,18 @@ export default {
       // Add child to parent
       if (parentIndex >= 0) {
         flattened[parentIndex].children.push(id);
-        // Sort children descending order
-        flattened[parentIndex].children.sort((a, b) => b - a);
+
+        // Sort children descending flow order
+        this.sortTokenChildren(flattened[parentIndex]);
       }
 
       // Remove child from former parent
-      let formerParentIndex = flattened.findIndex((el) => {
-        flattened[index].parentId === el.id;
-      });
-      if (formerParentIndex >= 0) {
-        flattened[formerParentIndex].children = flattened[
-          formerParentIndex
-        ].children.filter((i) => i != id);
+      let formerParent = flattened.find(
+        (el) => flattened[index].parentId === el.id
+      );
+
+      if (formerParent) {
+        formerParent.children = formerParent.children.filter((i) => i != id);
       }
 
       // Replace child's parent parameter

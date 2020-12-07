@@ -21,8 +21,8 @@ import { useState, generateSentenceFlow } from "@/api/sentenceFlow";
 
 export default {
   setup() {
-    const { sentenceFlow } = useState();
-    return { sentenceFlow, generateSentenceFlow };
+    const { sentenceFlow, sortTokenChildren } = useState();
+    return { sentenceFlow, sortTokenChildren, generateSentenceFlow };
   },
   computed: {
     sentence: {
@@ -159,7 +159,7 @@ export default {
                 // This is to fix the issue that a|b|c removing |c returns a|bc instead of a|b
                 if (this.sentenceFlow[i][0].label === tokenized[i]) {
                   toDelete.label = "";
-                } 
+                }
               }
 
               // Filter for edge case where toSave was child of toDelete
@@ -188,7 +188,7 @@ export default {
                 );
                 if (child < 0) {
                   formerParent[0].children.push(toSave.id);
-                  formerParent[0].children.sort((a, b) => b - a);
+                  this.sortTokenChildren(formerParent[0]);
                 }
               }
 
@@ -197,8 +197,8 @@ export default {
 
               // Combines children and sorts
               toSave.children = toSave.children.concat(toDelete.children);
-              toSave.children.sort((a, b) => b - a);
-
+              this.sortTokenChildren(toSave);
+              
               // Sets parentId of orphaned children
               toDelete.children.forEach((childId) => {
                 let child = this.sentenceFlow.find(

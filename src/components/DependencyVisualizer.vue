@@ -3,7 +3,7 @@
     id="flow-graph"
     class="mt-4"
     width="100%"
-    :height="treeData.layout.height"
+    :height="treeData.layout.height > 600 ? treeData.layout.height : '600px'"
   >
     <g class="svg-pan-zoom_viewport">
       <template v-for="(l, index) in treeData.links" :key="index">
@@ -83,9 +83,7 @@ export default {
     treeData() {
       // Deep clone array so our modifications don't recursively retrigger computation
       // let levels = JSON.parse(JSON.stringify(unref(exampleSentences.levels)));
-      let levels = JSON.parse(
-        JSON.stringify(unref(this.sentenceFlow))
-      );
+      let levels = JSON.parse(JSON.stringify(unref(this.sentenceFlow)));
       console.log(this.sentenceFlow);
 
       // precompute level depth
@@ -189,10 +187,10 @@ export default {
       // Wait till svg is populated before instantiating
       this.$nextTick(function() {
         this.panZoom = svgPanZoom("#flow-graph");
-        // this.panZoom.updateBBox();
-        // this.panZoom.resize();
-        // this.panZoom.fit();
-        this.panZoom.center();
+        this.panZoom.updateBBox();
+        this.panZoom.resize();
+        this.panZoom.fit();
+        // this.panZoom.center();
       });
     },
   },

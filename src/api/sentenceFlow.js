@@ -51,14 +51,16 @@ export const generateSentenceFlow = async (sentence) => {
     return flow;
   } catch (e) {
     // console.error(e);
-    return [[
-      {
-        id: 0,
-        label: sentence,
-        children: [],
-        parentId: -1,
-      },
-    ]];
+    return [
+      [
+        {
+          id: 0,
+          label: sentence,
+          children: [],
+          parentId: -1,
+        },
+      ],
+    ];
   }
 };
 
@@ -135,11 +137,22 @@ export const createState = () => {
     return flow;
   });
 
+  // Sorts children of token in descending flow order
+  const sortTokenChildren = (tokenObject) => {
+    tokenObject.children.sort((a, b) => {
+      const flattened = sentenceFlow.value.flat();
+      const aIndex = flattened.findIndex((el) => el.id === a);
+      const bIndex = flattened.findIndex((el) => el.id === b);
+      return bIndex - aIndex;
+    });
+  };
+
   return {
     sentenceFlow,
     sentenceFlowString,
     levelsFlow,
     compactedSentenceFlow,
+    sortTokenChildren,
   };
 };
 
