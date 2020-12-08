@@ -8,8 +8,9 @@
       <TokenTableRow
         @row-change="updateSentence"
         v-for="(token, index) in sentenceFlow.slice(0, -1)"
-        :token="token[0].label"
+        :label="token[0].label"
         :id="token[0].id"
+        :value="token[0].parentId"
         :index="index"
         :key="index"
       >

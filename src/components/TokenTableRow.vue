@@ -1,9 +1,9 @@
 <template>
   <tr>
-    <td>{{ token }}</td>
+    <td>{{ label }}</td>
     <td>
       <div class="select is-fullwidth">
-        <select v-model="value" @change="onChange">
+        <select v-model="innerValue" @change="onChange">
           <option :value="-1">None</option>
           <!-- Filter array to only show possible parents -->
           <template
@@ -31,7 +31,7 @@ export default {
     return { sentenceFlow };
   },
   props: {
-    token: {
+    label: {
       required: true,
       type: String,
     },
@@ -43,24 +43,33 @@ export default {
       required: true,
       type: Number,
     },
+    value: {
+      default: -1,
+      type: Number,
+    },
   },
   data() {
     return {
-      value: -1,
+      innerValue: this.value,
     };
+  },
+  watch: {
+    value() {
+      this.innerValue = this.value;
+    },
   },
   methods: {
     onChange() {
       // Find parent index
       // We can't get the index from the select tag because index could change at any time
       let parentIndex = this.sentenceFlow.findIndex(
-        (el) => el[0].id === this.value
+        (el) => el[0].id === this.innerValue
       );
-      
+
       this.$emit("row-change", {
         id: this.id,
         index: this.index,
-        parentId: this.value,
+        parentId: this.innerValue,
         parentIndex,
       });
     },
