@@ -1,4 +1,11 @@
 <template>
+  <flow-selector
+    @flow-change="
+      (val) => {
+        selectedFlow = val;
+      }
+    "
+  />
   <svg
     id="flow-graph"
     class="mt-4"
@@ -60,12 +67,13 @@
 import svgPanZoom from "svg-pan-zoom";
 import { scaleOrdinal } from "d3-scale";
 import { schemeDark2 } from "d3-scale-chromatic";
-import sentences from "../example-sentences";
-import { unref } from "vue";
-import exampleSentences from "../example-sentences";
 import { useState } from "@/api/sentenceFlow";
+import FlowSelector from "@/components/FlowSelector";
 
 export default {
+  components: {
+    FlowSelector,
+  },
   setup() {
     const sentenceFlow = useState();
     return { ...sentenceFlow };
@@ -74,17 +82,27 @@ export default {
     return {
       color: scaleOrdinal(schemeDark2),
       panZoom: null,
+      selectedFlow: 0,
     };
   },
   mounted() {
     // console.log(this.treeData);
   },
   computed: {
+    currentFlow() {
+      switch (parseInt(this.selectedFlow)) {
+        case 1:
+          return this.compactedSentenceFlow;
+        case 2:
+          return this.levelsFlow;
+        case 0:
+        default:
+          return this.sentenceFlow;
+      }
+    },
     treeData() {
       // Deep clone array so our modifications don't recursively retrigger computation
-      // let levels = JSON.parse(JSON.stringify(unref(exampleSentences.levels)));
-      let levels = JSON.parse(JSON.stringify(unref(this.sentenceFlow)));
-      console.log(this.sentenceFlow);
+      let levels = JSON.parse(JSON.stringify(this.currentFlow));
 
       // precompute level depth
       levels.forEach((l, i) => l.forEach((n) => (n.level = i)));

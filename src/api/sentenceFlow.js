@@ -47,7 +47,7 @@ export const generateSentenceFlow = async (sentence) => {
       // Sort children descending order
       token.children.sort((a, b) => b - a);
     });
-    console.log(flow);
+    // console.log(flow);
     return flow;
   } catch (e) {
     // console.error(e);
@@ -77,10 +77,10 @@ export const createState = () => {
 
     // Deep clone array so our modifications don't recursively retrigger computation
     let readable = JSON.parse(JSON.stringify(sentenceFlow.value));
-    console.log(sentenceFlow.value);
+    // console.log(sentenceFlow.value);
     let flow = [];
     flow.unshift(readable[readable.length - 1]);
-    console.log(flow);
+    // console.log(flow);
 
     for (let i = 0; i < flow.length; i++) {
       let children = [];

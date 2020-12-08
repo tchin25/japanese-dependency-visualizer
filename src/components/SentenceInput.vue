@@ -112,7 +112,7 @@ export default {
           }
         } else if (diff === -1) {
           // If token was deleted, destroy all links and shift array
-          // If tokenizer between tokens was delete, merge tokens
+          // If tokenizer between tokens was deleted, merge tokens
           // If the token at the end was deleted, sets new last token as root
 
           for (let i = 0; i < this.sentenceFlow.length - 1; i++) {
@@ -198,7 +198,7 @@ export default {
               // Combines children and sorts
               toSave.children = toSave.children.concat(toDelete.children);
               this.sortTokenChildren(toSave);
-              
+
               // Sets parentId of orphaned children
               toDelete.children.forEach((childId) => {
                 let child = this.sentenceFlow.find(
