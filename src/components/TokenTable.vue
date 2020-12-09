@@ -1,30 +1,34 @@
 <template>
-  <table class="table">
-    <thead>
-      <th>Tokenized</th>
-      <th>Parent</th>
-    </thead>
-    <tbody>
-      <TokenTableRow
-        @row-change="updateSentence"
-        v-for="(token, index) in sentenceFlow.slice(0, -1)"
-        :label="token[0].label"
-        :id="token[0].id"
-        :value="token[0].parentId"
-        :index="index"
-        :key="index"
-      >
-      </TokenTableRow>
-      <tr v-if="sentenceFlow.length > 0">
-        <td>
-          {{ sentenceFlow[sentenceFlow.length - 1][0].label }}
-        </td>
-        <td>
-          Root Node
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="card">
+    <div class="card-content">
+      <table style="table-layout: fixed; width: 100%" class="table">
+        <thead>
+          <th>Tokenized</th>
+          <th>Parent</th>
+        </thead>
+        <tbody>
+          <TokenTableRow
+            @row-change="updateSentence"
+            v-for="(token, index) in sentenceFlow.slice(0, -1)"
+            :label="token[0].label"
+            :id="token[0].id"
+            :value="token[0].parentId"
+            :index="index"
+            :key="index"
+          >
+          </TokenTableRow>
+          <tr v-if="sentenceFlow.length > 0">
+            <td style="overflow: hidden; text-overflow: ellipsis;">
+              {{ sentenceFlow[sentenceFlow.length - 1][0].label }}
+            </td>
+            <td>
+              Root Node
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </template>
 
 <script>

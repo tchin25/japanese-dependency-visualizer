@@ -1,6 +1,8 @@
 <template>
   <tr>
-    <td>{{ label }}</td>
+    <td style="overflow: hidden; text-overflow: ellipsis;">
+      {{ label }}
+    </td>
     <td>
       <div class="select is-fullwidth">
         <select v-model="innerValue" @change="onChange">

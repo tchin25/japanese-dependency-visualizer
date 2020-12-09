@@ -1,65 +1,71 @@
 <template>
-  <flow-selector
-    @flow-change="
-      (val) => {
-        selectedFlow = val;
-      }
-    "
-  />
-  <svg
-    id="flow-graph"
-    class="mt-4"
-    width="100%"
-    :height="treeData.layout.height > 600 ? treeData.layout.height : '600px'"
-  >
-    <g class="svg-pan-zoom_viewport">
-      <template v-for="(l, index) in treeData.links" :key="index">
-        <path
-          :d="
-            `M${l.xt} ${l.yt}
+  <div class="card">
+    <div style="position: static;" class="card-content">
+      <flow-selector
+        style="position: absolute; top: 1.5rem; right: 1.5rem;"
+        @flow-change="
+          (val) => {
+            selectedFlow = val;
+          }
+        "
+      />
+      <svg
+        id="flow-graph"
+        width="100%"
+        :height="
+          treeData.layout.height > 600 ? treeData.layout.height : '600px'
+        "
+      >
+        <g class="svg-pan-zoom_viewport">
+          <template v-for="(l, index) in treeData.links" :key="index">
+            <path
+              :d="
+                `M${l.xt} ${l.yt}
          L${l.xb - 16} ${l.yt}
          A16 16 90 0 1 ${l.xb} ${l.yt + 16}
          L${l.xb} ${l.ys - 16}
          A16 16 90 0 0 ${l.xb + 16} ${l.ys}
          L${l.xs} ${l.ys}`
-          "
-          fill="none"
-          :stroke="`${color(l.bundle.id)}`"
-          stroke-width="2"
-        />
-      </template>
-      <template v-for="(n, index) in treeData.nodes" :key="index">
-        <text
-          :x="n.x + 2"
-          :y="n.y - 14"
-          dy="0.35em"
-          stroke="white"
-          stroke-width="4"
-        >
-          {{ n.label }}
-        </text>
-        <line
-          class="node"
-          stroke="black"
-          stroke-width="8"
-          :x1="n.x"
-          :y1="n.y"
-          :x2="n.x"
-          :y2="n.y"
-        />
-        <line
-          class="node"
-          stroke="white"
-          stroke-width="4"
-          :x1="n.x"
-          :y1="n.y"
-          :x2="n.x"
-          :y2="n.y"
-        />
-        <text :x="n.x + 2" :y="n.y - 14" dy="0.35em">{{ n.label }}</text>
-      </template>
-    </g>
-  </svg>
+              "
+              fill="none"
+              :stroke="`${color(l.bundle.id)}`"
+              stroke-width="2"
+            />
+          </template>
+          <template v-for="(n, index) in treeData.nodes" :key="index">
+            <text
+              :x="n.x + 2"
+              :y="n.y - 14"
+              dy="0.35em"
+              stroke="white"
+              stroke-width="4"
+            >
+              {{ n.label }}
+            </text>
+            <line
+              class="node"
+              stroke="black"
+              stroke-width="8"
+              :x1="n.x"
+              :y1="n.y"
+              :x2="n.x"
+              :y2="n.y"
+            />
+            <line
+              class="node"
+              stroke="white"
+              stroke-width="4"
+              :x1="n.x"
+              :y1="n.y"
+              :x2="n.x"
+              :y2="n.y"
+            />
+            <text :x="n.x + 2" :y="n.y - 14" dy="0.35em">{{ n.label }}</text>
+          </template>
+        </g>
+      </svg>
+    </div>
+  </div>
 </template>
 
 <script>

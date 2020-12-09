@@ -4,11 +4,11 @@
       <SentenceInput />
     </div>
   </div>
-  <div class="section">
+  <div class="section pt-0">
     <div class="container">
       <div style="display: flex;">
-        <TokenTable />
-        <DependencyVisualizer />
+        <TokenTable style="width: 20%" class="m-2" />
+        <DependencyVisualizer style="width: 80%" class="m-2" />
       </div>
     </div>
   </div>
