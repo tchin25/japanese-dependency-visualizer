@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <div style="position: static;" class="card-content">
+    <div style="position: static; height: 100%" class="card-content">
       <flow-selector
         style="position: absolute; top: 1.5rem; right: 1.5rem;"
         @flow-change="
@@ -12,9 +12,7 @@
       <svg
         id="flow-graph"
         width="100%"
-        :height="
-          treeData.layout.height > 600 ? treeData.layout.height : '600px'
-        "
+        height="100%"
       >
         <g class="svg-pan-zoom_viewport">
           <template v-for="(l, index) in treeData.links" :key="index">

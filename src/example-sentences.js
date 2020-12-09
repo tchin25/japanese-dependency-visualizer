@@ -1,59 +1,59 @@
 export default {
   levels: [
     // Levels From Root
-    [{ id: 0, label: "店内に", children: [] }],
+    [{ id: 0, label: "店内に", children: [], parentId: 1 }],
     [
-      { id: 1, label: "散らばっている", children: [0] },
-      { id: 2, label: "無数の", children: [] },
+      { id: 1, label: "散らばっている", children: [0], parentId: 3 },
+      { id: 2, label: "無数の", children: [], parentId: 3 },
     ],
     [
-      { id: 3, label: "音たちから", children: [2, 1] },
-      { id: 4, label: "情報を", children: [] },
-      { id: 6, label: "私の", children: [] },
-      { id: 8, label: "納品されたばかりの", children: [] },
+      { id: 3, label: "音たちから", children: [2, 1], parentId: 5 },
+      { id: 4, label: "情報を", children: [], parentId: 5 },
+      { id: 6, label: "私の", children: [], parentId: 7 },
+      { id: 8, label: "納品されたばかりの", children: [], parentId: 9 },
     ],
     [
-      { id: 5, label: "拾いながら、", children: [4, 3] },
-      { id: 7, label: "身体は", children: [6] },
-      { id: 9, label: "おにぎりを", children: [8] },
+      { id: 5, label: "拾いながら、", children: [4, 3], parentId: 10 },
+      { id: 7, label: "身体は", children: [6], parentId: 10 },
+      { id: 9, label: "おにぎりを", children: [8], parentId: 10 },
     ],
-    [{ id: 10, label: "並べている", children: [9, 7, 5] }],
+    [{ id: 10, label: "並べている", children: [9, 7, 5], parentId: -1 }],
   ],
   readable: [
     // Readable Sentence Flow
-    [{ id: 0, label: "店内に", children: [] }],
-    [{ id: 1, label: "散らばっている", children: [0] }],
-    [{ id: 2, label: "無数の", children: [] }],
-    [{ id: 3, label: "音たちから", children: [2, 1] }],
-    [{ id: 4, label: "情報を", children: [] }],
-    [{ id: 5, label: "拾いながら、", children: [4, 3] }],
-    [{ id: 6, label: "私の", children: [] }],
-    [{ id: 7, label: "身体は", children: [6] }],
-    [{ id: 8, label: "納品されたばかりの", children: [] }],
-    [{ id: 9, label: "おにぎりを", children: [8] }],
-    [{ id: 10, label: "並べている", children: [9, 7, 5] }],
+    [{ id: 0, label: "店内に", children: [], parentId: 1 }],
+    [{ id: 1, label: "散らばっている", children: [0], parentId: 3 }],
+    [{ id: 2, label: "無数の", children: [], parentId: 3 }],
+    [{ id: 3, label: "音たちから", children: [2, 1], parentId: 5 }],
+    [{ id: 4, label: "情報を", children: [], parentId: 5 }],
+    [{ id: 5, label: "拾いながら、", children: [4, 3], parentId: 10 }],
+    [{ id: 6, label: "私の", children: [], parentId: 7 }],
+    [{ id: 7, label: "身体は", children: [6], parentId: 10 }],
+    [{ id: 8, label: "納品されたばかりの", children: [], parentId: 9 }],
+    [{ id: 9, label: "おにぎりを", children: [8], parentId: 10 }],
+    [{ id: 10, label: "並べている", children: [9, 7, 5], parentId: -1 }],
   ],
   readable_c: [
     // Compacted Readable Sentence Flow
-    [{ id: 0, label: "店内に", children: [] }],
+    [{ id: 0, label: "店内に", children: [], parentId: 1 }],
     [
-      { id: 1, label: "散らばっている", children: [0] },
-      { id: 2, label: "無数の", children: [] },
+      { id: 1, label: "散らばっている", children: [0], parentId: 3 },
+      { id: 2, label: "無数の", children: [], parentId: 3 },
     ],
     [
-      { id: 3, label: "音たちから", children: [2, 1] },
-      { id: 4, label: "情報を", children: [] },
+      { id: 3, label: "音たちから", children: [2, 1], parentId: 5 },
+      { id: 4, label: "情報を", children: [], parentId: 5 },
     ],
     [
-      { id: 5, label: "拾いながら、", children: [4, 3] },
-      { id: 6, label: "私の", children: [] },
+      { id: 5, label: "拾いながら、", children: [4, 3], parentId: 10 },
+      { id: 6, label: "私の", children: [], parentId: 7 },
     ],
     [
-      { id: 7, label: "身体は", children: [6] },
-      { id: 8, label: "納品されたばかりの", children: [] },
+      { id: 7, label: "身体は", children: [6], parentId: 10 },
+      { id: 8, label: "納品されたばかりの", children: [], parentId: 9 },
     ],
-    [{ id: 9, label: "おにぎりを", children: [8] }],
-    [{ id: 10, label: "並べている", children: [9, 7, 5] }],
+    [{ id: 9, label: "おにぎりを", children: [8], parentId: 10 }],
+    [{ id: 10, label: "並べている", children: [9, 7, 5], parentId: -1 }],
   ],
   xml: `<sentence>
   <chunk id="0" link="1" rel="D" score="1.894732" head="0" func="1">
@@ -112,26 +112,26 @@ export default {
   levels2: [
     // Levels From Root
     [
-      { id: 0, label: "彼は", children: [] },
-      { id: 1, label: "マクで", children: [] },
-      { id: 2, label: "昼ご飯を", children: [] },
+      { id: 0, label: "彼は", children: [], parentId: 3 },
+      { id: 1, label: "マクで", children: [], parentId: 3 },
+      { id: 2, label: "昼ご飯を", children: [], parentId: 3 },
     ],
-    [{ id: 3, label: "食べます。", children: [2, 1, 0] }],
+    [{ id: 3, label: "食べます。", children: [2, 1, 0], parentId: -1 }],
   ],
   readable2: [
     //  Readable Sentence Flow
-    [{ id: 0, label: "彼は", children: [] }],
-    [{ id: 1, label: "マクで", children: [] }],
-    [{ id: 2, label: "昼ご飯を", children: [] }],
-    [{ id: 3, label: "食べます。", children: [2, 1, 0] }],
+    [{ id: 0, label: "彼は", children: [], parentId: 3 }],
+    [{ id: 1, label: "マクで", children: [], parentId: 3 }],
+    [{ id: 2, label: "昼ご飯を", children: [], parentId: 3 }],
+    [{ id: 3, label: "食べます。", children: [2, 1, 0], parentId: -1 }],
   ],
   readable2_c: [
     // Compacted Readable Sentence Flow
     [
-      { id: 0, label: "彼は", children: [] },
-      { id: 1, label: "マクで", children: [] },
-      { id: 2, label: "昼ご飯を", children: [] },
+      { id: 0, label: "彼は", children: [], parentId: 3 },
+      { id: 1, label: "マクで", children: [], parentId: 3 },
+      { id: 2, label: "昼ご飯を", children: [], parentId: 3 },
     ],
-    [{ id: 3, label: "食べます。", children: [2, 1, 0] }],
+    [{ id: 3, label: "食べます。", children: [2, 1, 0], parentId: -1 }],
   ],
 };

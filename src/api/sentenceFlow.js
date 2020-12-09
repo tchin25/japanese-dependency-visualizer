@@ -79,17 +79,31 @@ export const createState = () => {
     let readable = JSON.parse(JSON.stringify(sentenceFlow.value));
     // console.log(sentenceFlow.value);
     let flow = [];
-    flow.unshift(readable[readable.length - 1]);
+
+    flow.unshift([]);
+    // Root and unlinked nodes will be at the first level
+    for (let i = 0; i < readable.length; i++) {
+      if (readable[i][0].parentId === -1) {
+        flow[0].unshift(readable[i][0]);
+      }
+    }
+
     // console.log(flow);
 
     for (let i = 0; i < flow.length; i++) {
+      // Children of current level
       let children = [];
+
       // Iterate through every token in each level
       for (let j = flow[0].length - 1; j >= 0; j--) {
-        // Iterate through every child in each token
+        // Iterate through every child in each token and push it to children
         for (let k = 0; k < flow[0][j].children.length; k++) {
-          let childIndex = flow[0][j].children[k];
-          children.unshift(readable[childIndex][0]);
+          // let childIndex = flow[0][j].children[k];
+
+          let child = readable.find(
+            (el) => el[0].id === flow[0][j].children[k]
+          );
+          children.unshift(child[0]);
         }
       }
 
