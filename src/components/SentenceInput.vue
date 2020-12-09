@@ -6,8 +6,10 @@
     <div class="control">
       <button
         class="button is-primary"
+        :class="disabled ? 'is-loading' : ''"
         type="submit"
         value="Submit"
+        :disabled="disabled"
         @click="setSentenceFlow"
       >
         Auto-Generate Flow
@@ -23,6 +25,11 @@ export default {
   setup() {
     const { sentenceFlow, sortTokenChildren } = useState();
     return { sentenceFlow, sortTokenChildren, generateSentenceFlow };
+  },
+  data() {
+    return {
+      disabled: false,
+    };
   },
   computed: {
     sentence: {
@@ -228,7 +235,9 @@ export default {
   },
   methods: {
     async setSentenceFlow() {
+      this.disabled = true;
       this.sentenceFlow = await this.generateSentenceFlow(this.sentence);
+      this.disabled = false;
     },
   },
 };
