@@ -9,11 +9,7 @@
           }
         "
       />
-      <svg
-        id="flow-graph"
-        width="100%"
-        height="100%"
-      >
+      <svg id="flow-graph" width="100%" height="100%">
         <g class="svg-pan-zoom_viewport">
           <template v-for="(l, index) in treeData.links" :key="index">
             <path
@@ -205,7 +201,12 @@ export default {
     },
   },
   watch: {
-    treeData() {
+    sentenceFlowString() {
+      // Movable library breaks if nothing is in svg
+      if (this.sentenceFlow.length === 0) {
+        return;
+      }
+
       // Wait till svg is populated before instantiating
       this.$nextTick(function() {
         this.panZoom = svgPanZoom("#flow-graph");
