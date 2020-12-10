@@ -58,6 +58,25 @@
           </template>
         </g>
       </svg>
+
+      <div style="position: absolute; bottom: 1.5rem; left: 1.5rem;" class="field is-grouped">
+        <p class="control">
+          <button
+            class="button is-small"
+            @click="panZoom ? panZoom.center() : null"
+          >
+            Center
+          </button>
+        </p>
+        <p class="control">
+          <button
+            class="button is-small"
+            @click="panZoom ? panZoom.fit() : null"
+          >
+            Fit
+          </button>
+        </p>
+      </div>
     </div>
   </div>
 </template>

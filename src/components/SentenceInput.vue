@@ -102,7 +102,7 @@ export default {
                   id,
                   label: tokenized[i],
                   children: [],
-                  parentIndex: -1,
+                  parentId: -1,
                 },
               ]);
               break;
