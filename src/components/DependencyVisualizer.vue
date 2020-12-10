@@ -9,7 +9,11 @@
           }
         "
       />
-      <svg id="flow-graph" width="100%" height="max(100%, 600px)">
+      <svg
+        id="flow-graph"
+        width="100%"
+        :height="`max(${treeData.layout.height}, 600px)`"
+      >
         <g class="svg-pan-zoom_viewport">
           <template v-for="(l, index) in treeData.links" :key="index">
             <path
@@ -59,7 +63,10 @@
         </g>
       </svg>
 
-      <div style="position: absolute; bottom: 1.5rem; left: 1.5rem;" class="field is-grouped">
+      <div
+        style="position: absolute; bottom: 1.5rem; left: 1.5rem;"
+        class="field is-grouped"
+      >
         <p class="control">
           <button
             class="button is-small"

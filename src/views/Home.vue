@@ -11,7 +11,7 @@
           <TokenTable style="height: 100%" />
         </div>
         <div class="column">
-          <DependencyVisualizer />
+          <DependencyVisualizer style="height: 100%" />
         </div>
       </div>
     </div>
