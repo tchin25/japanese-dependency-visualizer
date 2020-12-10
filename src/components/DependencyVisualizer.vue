@@ -9,7 +9,7 @@
           }
         "
       />
-      <svg id="flow-graph" width="100%" height="100%">
+      <svg id="flow-graph" width="100%" height="max(100%, 600px)">
         <g class="svg-pan-zoom_viewport">
           <template v-for="(l, index) in treeData.links" :key="index">
             <path

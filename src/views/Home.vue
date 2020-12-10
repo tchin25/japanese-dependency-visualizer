@@ -6,9 +6,13 @@
   </div>
   <div class="section pt-0">
     <div class="container">
-      <div style="display: flex;">
-        <TokenTable style="width: 20%" class="m-2" />
-        <DependencyVisualizer style="width: 80%" class="m-2" />
+      <div style="width: 100%" class="columns ml-0">
+        <div class="column is-one-fifth">
+          <TokenTable style="height: 100%" />
+        </div>
+        <div class="column">
+          <DependencyVisualizer />
+        </div>
       </div>
     </div>
   </div>
