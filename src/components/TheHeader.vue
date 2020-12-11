@@ -1,7 +1,10 @@
 <template>
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <h1 class="navbar-item title mb-0">
+      <h1 class="navbar-item title mb-0 is-hidden-touch">
+        Japanese Dependency Visualizer
+      </h1>
+      <h1 class="navbar-item mb-0 is-hidden-desktop">
         Japanese Dependency Visualizer
       </h1>
 
@@ -27,7 +30,7 @@
     >
       <div class="navbar-end">
         <router-link to="/" class="navbar-item">Home</router-link>
-        <router-link to="/about" class="navbar-item mr-4">About</router-link>
+        <router-link to="/about" class="navbar-item">About</router-link>
       </div>
     </div>
   </nav>

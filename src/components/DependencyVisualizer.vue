@@ -12,7 +12,7 @@
       <svg
         id="flow-graph"
         width="100%"
-        :height="`max(${treeData.layout.height}, 600px)`"
+        :height="`max(${treeData.layout.height}px, 600px)`"
       >
         <g class="svg-pan-zoom_viewport">
           <template v-for="(l, index) in treeData.links" :key="index">
@@ -108,7 +108,7 @@ export default {
     return {
       color: scaleOrdinal(schemeDark2),
       panZoom: null,
-      selectedFlow: 0,
+      selectedFlow: 1,
     };
   },
   mounted() {

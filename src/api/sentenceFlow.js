@@ -1,4 +1,5 @@
 import { ref, computed, reactive, provide, inject } from "vue";
+import exampleSentences from "@/example-sentences";
 
 export const generateSentenceFlow = async (sentence) => {
   if (!sentence) {
@@ -65,7 +66,7 @@ export const generateSentenceFlow = async (sentence) => {
 };
 
 export const createState = () => {
-  const sentenceFlow = ref([]);
+  const sentenceFlow = ref(exampleSentences.readable);
 
   const sentenceFlowString = computed(() => JSON.stringify(sentenceFlow.value));
 
