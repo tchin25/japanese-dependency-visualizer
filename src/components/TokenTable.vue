@@ -3,8 +3,8 @@
     <div class="card-content">
       <table style="table-layout: fixed; width: 100%" class="table">
         <thead>
-          <th>Tokenized</th>
-          <th>Parent</th>
+          <th class="hide-overflow">Token</th>
+          <th class="hide-overflow">Parent</th>
         </thead>
         <tbody>
           <TokenTableRow
@@ -18,7 +18,9 @@
           >
           </TokenTableRow>
           <tr v-if="sentenceFlow.length > 0">
-            <td style="overflow: hidden; text-overflow: ellipsis;">
+            <td
+              class="hide-overflow"
+            >
               {{ sentenceFlow[sentenceFlow.length - 1][0].label }}
             </td>
             <td>
@@ -74,4 +76,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.hide-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+</style>

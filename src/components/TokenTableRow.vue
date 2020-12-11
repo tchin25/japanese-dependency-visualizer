@@ -1,10 +1,10 @@
 <template>
   <tr>
-    <td style="overflow: hidden; text-overflow: ellipsis;">
+    <td class="hide-overflow">
       {{ label }}
     </td>
     <td>
-      <div class="select is-fullwidth">
+      <div class="select is-small is-fullwidth">
         <select v-model="innerValue" @change="onChange">
           <option :value="-1">None</option>
           <!-- Filter array to only show possible parents -->
