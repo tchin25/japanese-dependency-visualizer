@@ -62,27 +62,42 @@
           </template>
         </g>
       </svg>
-
-      <div
-        style="position: absolute; bottom: 1.5rem; left: 1.5rem;"
-        class="field is-grouped"
-      >
-        <p class="control">
-          <button
-            class="button is-small"
-            @click="panZoom ? panZoom.center() : null"
-          >
-            Center
-          </button>
-        </p>
-        <p class="control">
-          <button
-            class="button is-small"
-            @click="panZoom ? panZoom.fit() : null"
-          >
-            Fit
-          </button>
-        </p>
+      <div style="position: absolute; bottom: 1.5rem; left: 1.5rem;">
+        <div class="field is-grouped mb-0">
+          <p class="control">
+            <button
+              class="button is-small"
+              @click="panZoom ? panZoom.center() : null"
+            >
+              Center
+            </button>
+          </p>
+          <p class="control">
+            <button
+              class="button is-small"
+              @click="panZoom ? panZoom.fit() : null"
+            >
+              Fit
+            </button>
+          </p>
+          <p class="control">
+            <button
+              class="button is-small"
+              @click="panZoom ? panZoom.zoomIn() : null"
+            >
+              Zoom In
+            </button>
+          </p>
+          <p class="control">
+            <button
+              class="button is-small"
+              @click="panZoom ? panZoom.zoomOut() : null"
+            >
+              Zoom Out
+            </button>
+          </p>
+        </div>
+        <div class="is-size-7">*You can scroll to zoom on desktop</div>
       </div>
     </div>
   </div>
@@ -113,6 +128,7 @@ export default {
   },
   mounted() {
     // console.log(this.treeData);
+    this.panZoom = svgPanZoom("#flow-graph");
   },
   computed: {
     currentFlow() {
@@ -253,5 +269,8 @@ text {
 }
 .node {
   stroke-linecap: round;
+}
+#flow-graph:hover {
+  cursor: grab;
 }
 </style>

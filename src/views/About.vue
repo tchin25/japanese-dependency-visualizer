@@ -31,14 +31,18 @@
           >体言止め</a
         >」. The way the website is coded and also the dependency parser I used
         would probably not like it if you put one of those sentences in. Also,
-        the dependency parse is about 90% accurate, so don't put complete trust
+        the dependency parser is about 90% accurate, so don't put complete trust
         in it.
       </div>
       <div class="content">
         <h1 class="title">Who made this?</h1>
-        Hello. I'm Thomas. You can find my blog about language learning here,
-        and the code for this project and others things I do on my GitHub here.
-        Give this project a star on there if you think it's cool.
+        Hello. I'm Thomas. You can find my blog about language learning
+        <a href="https://barelylingual.net/"> here</a>, and the code for this
+        project can be found
+        <a href="https://github.com/tchin25/jp-dependency-diagrams-visualizer">
+          here</a
+        >. If you like this project, consider giving it a star because making
+        something like this has zero return on investment for me.
       </div>
     </div>
   </div>
