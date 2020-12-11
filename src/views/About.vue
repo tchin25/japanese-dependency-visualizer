@@ -8,16 +8,18 @@
       </div>
       <div class="content">
         <h1 class="title">What does that mean?</h1>
-        Here's a link to a series of blog posts I wrote that explains it.
-        Basically, Japanese has a few quirks in its sentence structure that has
-        some interesting effects. The first is that each part of the sentence
-        always depends on something to its right. The second is that each
-        individual branch is by itself a completely valid Japanese sentence.
+        <a href="https://barelylingual.net/posts/flow-part-1">Here's a link</a>
+        to a series of blog posts I wrote that explains it. Basically, Japanese
+        has a few quirks in its sentence structure that has some interesting
+        effects. The first is that each part of the sentence always depends on
+        something to its right. The second is that every Japanese sentence ends
+        in a verb/copula. This means that each line of dependencies is by itself
+        a completely valid Japanese sentence.
       </div>
       <div class="content">
         <h1 class="title">How do I use it?</h1>
-        Put a Japanese sentence it, and either hit the auto-generate button, or
-        you can manually create the flow by inserting the character
+        Put in a Japanese sentence, and either hit the auto-generate button, or
+        manually create the flow by inserting the character
         <code>|</code> between chunks of the sentence and linking them together
         using the table provided.
       </div>
