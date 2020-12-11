@@ -1,4 +1,4 @@
-import { ref, computed, reactive, provide, inject } from "vue";
+import { ref, computed, provide, inject } from "vue";
 import exampleSentences from "@/example-sentences";
 
 export const generateSentenceFlow = async (sentence) => {

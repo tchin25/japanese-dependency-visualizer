@@ -127,7 +127,6 @@ export default {
     };
   },
   mounted() {
-    // console.log(this.treeData);
     this.panZoom = svgPanZoom("#flow-graph");
   },
   computed: {
@@ -254,8 +253,6 @@ export default {
         this.panZoom = svgPanZoom("#flow-graph");
         this.panZoom.updateBBox();
         this.panZoom.resize();
-        this.panZoom.fit();
-        // this.panZoom.center();
       });
     },
   },
