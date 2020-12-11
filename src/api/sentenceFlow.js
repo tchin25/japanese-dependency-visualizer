@@ -85,7 +85,7 @@ export const createState = () => {
     // Root and unlinked nodes will be at the first level
     for (let i = 0; i < readable.length; i++) {
       if (readable[i][0].parentId === -1) {
-        flow[0].unshift(readable[i][0]);
+        flow[0].push(readable[i][0]);
       }
     }
 
