@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "deploy": "gh-pages -d dist -t"
+    "deploy": "gh-pages -d dist -t -f"
   },
   "dependencies": {
     "bulma": "^0.9.1",

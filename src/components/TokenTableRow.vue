@@ -71,7 +71,7 @@ export default {
       this.$emit("row-change", {
         id: this.id,
         index: this.index,
-        parentId: this.innerValue,
+        parentId: parseInt(this.innerValue),
         parentIndex,
       });
     },
