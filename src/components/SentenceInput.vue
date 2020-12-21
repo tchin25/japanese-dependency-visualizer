@@ -34,15 +34,10 @@ export default {
   computed: {
     sentence: {
       get() {
-        return this.sentenceFlow.reduce((acc, curr, i, arr) => {
-          if (arr.length === 0) {
-            return;
-          }
-          if (i === 0) {
-            return curr[0].label;
-          }
-          return (acc += "|" + curr[0].label);
-        }, "");
+        return this.sentenceFlow
+          .flat()
+          .map((token) => token.label)
+          .join("|");
       },
       set(value) {
         // TODO: Make this code less cursed

@@ -79,14 +79,14 @@ describe("SentenceInput.vue", () => {
         expect(localThis.sentenceFlow).toMatchObject([
           [{ id: 1, label: "b", children: [], parentId: 0 }],
           [{ id: 4, label: "b", children: [], parentId: 0 }],
-          [{ id: 0, label: "ad", children: [1, 4], parentId: 2 }],
+          [{ id: 0, label: "ad", children: [4, 1], parentId: 2 }],
           [{ id: 2, label: "c", children: [0], parentId: -1 }],
         ]);
         SentenceInput.computed.sentence.set.apply(localThis, ["b|b|adc"]);
         expect(localThis.sentenceFlow).toMatchObject([
           [{ id: 1, label: "b", children: [], parentId: 0 }],
           [{ id: 4, label: "b", children: [], parentId: 0 }],
-          [{ id: 0, label: "adc", children: [1, 4], parentId: -1 }],
+          [{ id: 0, label: "adc", children: [4, 1], parentId: -1 }],
         ]);
       });
 
