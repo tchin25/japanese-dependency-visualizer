@@ -63,39 +63,35 @@
         </g>
       </svg>
       <div style="position: absolute; bottom: 1.5rem; left: 1.5rem;">
-        <div class="field is-grouped mb-0">
-          <p class="control">
+        <div class="buttons mb-0">
+          <div>
             <button
               class="button is-small"
               @click="panZoom ? panZoom.center() : null"
             >
               Center
             </button>
-          </p>
-          <p class="control">
             <button
               class="button is-small"
               @click="panZoom ? panZoom.fit() : null"
             >
               Fit
             </button>
-          </p>
-          <p class="control">
+          </div>
+          <div>
             <button
               class="button is-small"
               @click="panZoom ? panZoom.zoomIn() : null"
             >
               Zoom In
             </button>
-          </p>
-          <p class="control">
             <button
               class="button is-small"
               @click="panZoom ? panZoom.zoomOut() : null"
             >
               Zoom Out
             </button>
-          </p>
+          </div>
         </div>
         <div class="is-size-7">*You can scroll to zoom on desktop</div>
       </div>
