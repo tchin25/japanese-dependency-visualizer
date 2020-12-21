@@ -43,8 +43,8 @@
         project can be found
         <a href="https://github.com/tchin25/jp-dependency-diagrams-visualizer">
           here</a
-        >. If you like this project, consider giving it a star because making
-        something like this has zero return on investment for me.
+        >. If you like this project, consider giving it a star on there because
+        making something like this has zero return on investment for me.
       </div>
     </div>
   </div>
