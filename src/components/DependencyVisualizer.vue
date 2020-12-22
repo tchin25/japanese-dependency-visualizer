@@ -2,7 +2,7 @@
   <div class="card">
     <div style="position: static; height: 100%" class="card-content">
       <flow-selector
-        style="position: absolute; top: 1.5rem; right: 1.5rem;"
+        style="max-width: 100%; position: absolute; top: 1.5rem; right: 1.5rem;"
         @flow-change="
           (val) => {
             selectedFlow = val;
@@ -63,35 +63,33 @@
         </g>
       </svg>
       <div style="position: absolute; bottom: 1.5rem; left: 1.5rem;">
-        <div class="buttons mb-0">
-          <div>
-            <button
-              class="button is-small"
-              @click="panZoom ? panZoom.center() : null"
-            >
-              Center
-            </button>
-            <button
-              class="button is-small"
-              @click="panZoom ? panZoom.fit() : null"
-            >
-              Fit
-            </button>
-          </div>
-          <div>
-            <button
-              class="button is-small"
-              @click="panZoom ? panZoom.zoomIn() : null"
-            >
-              Zoom In
-            </button>
-            <button
-              class="button is-small"
-              @click="panZoom ? panZoom.zoomOut() : null"
-            >
-              Zoom Out
-            </button>
-          </div>
+        <div class="control field is-grouped">
+          <button
+            class="button control is-small"
+            @click="panZoom ? panZoom.center() : null"
+          >
+            Center
+          </button>
+          <button
+            class="button control is-small"
+            @click="panZoom ? panZoom.fit() : null"
+          >
+            Fit
+          </button>
+        </div>
+        <div class="control field is-grouped">
+          <button
+            class="button control is-small"
+            @click="panZoom ? panZoom.zoomIn() : null"
+          >
+            Zoom In
+          </button>
+          <button
+            class="button control is-small"
+            @click="panZoom ? panZoom.zoomOut() : null"
+          >
+            Zoom Out
+          </button>
         </div>
         <div class="is-size-7">*You can scroll to zoom on desktop</div>
       </div>
