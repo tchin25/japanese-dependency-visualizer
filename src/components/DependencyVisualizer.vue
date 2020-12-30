@@ -11,6 +11,7 @@
       />
       <svg
         id="flow-graph"
+        ref="svg"
         width="100%"
         :height="`max(${treeData.layout.height}px, 600px)`"
       >
@@ -100,6 +101,7 @@
 <script>
 // import * as d3 from "d3";
 import svgPanZoom from "svg-pan-zoom";
+import Hammer from "hammerjs";
 import { scaleOrdinal } from "d3-scale";
 import { schemeDark2 } from "d3-scale-chromatic";
 import { useState } from "@/api/sentenceFlow";
@@ -118,10 +120,43 @@ export default {
       color: scaleOrdinal(schemeDark2),
       panZoom: null,
       selectedFlow: 1,
+      hammer: null,
+      initialScale: 1,
     };
   },
   mounted() {
     this.panZoom = svgPanZoom("#flow-graph");
+    
+    this.hammer = Hammer(this.$refs.svg, {
+      inputClass: Hammer.SUPPORT_POINTER_EVENTS
+        ? Hammer.PointerEventInput
+        : Hammer.TouchInput,
+    });
+
+    // Enable pinch
+    this.hammer.get("pinch").set({ enable: true });
+
+    // Handle double tap
+    this.hammer.on("doubletap", (ev) => {
+      this.panZoom.zoomIn();
+    });
+
+    // Handle pinch
+    this.hammer.on("pinchstart pinchmove", (ev) => {
+      // On pinch start remember initial zoom
+      if (ev.type === "pinchstart") {
+        this.initialScale = this.panZoom.getZoom();
+        this.panZoom.zoomAtPoint(this.initialScale * ev.scale, {
+          x: ev.center.x,
+          y: ev.center.y,
+        });
+      }
+
+      this.panZoom.zoomAtPoint(this.initialScale * ev.scale, {
+        x: ev.center.x,
+        y: ev.center.y,
+      });
+    });
   },
   computed: {
     currentFlow() {
