@@ -1,6 +1,6 @@
 import exampleSentences from "@/example-sentences";
 import SentenceInput from "@/components/SentenceInput.vue";
-import { createState } from "@/api/sentenceFlow";
+import { useState } from "@/api/sentenceFlow";
 
 describe("SentenceInput.vue", () => {
   describe("Computed sentence", () => {
@@ -73,7 +73,7 @@ describe("SentenceInput.vue", () => {
             [{ id: 3, label: "d", children: [4], parentId: 2 }],
             [{ id: 2, label: "c", children: [0, 3], parentId: -1 }],
           ],
-          sortTokenChildren: createState().sortTokenChildren,
+          sortTokenChildren: useState().sortTokenChildren,
         };
         SentenceInput.computed.sentence.set.apply(localThis, ["b|b|ad|c"]);
         expect(localThis.sentenceFlow).toMatchObject([
@@ -138,7 +138,7 @@ describe("SentenceInput.vue", () => {
             [{ id: 0, label: "ad", children: [], parentId: 2 }],
             [{ id: 2, label: "c", children: [1, 0], parentId: -1 }],
           ],
-          sortTokenChildren: createState().sortTokenChildren,
+          sortTokenChildren: useState().sortTokenChildren,
         };
         SentenceInput.computed.sentence.set.apply(localThis, ["b|ad"]);
         expect(localThis.sentenceFlow).toMatchObject([

@@ -40,12 +40,8 @@
 import SentenceInput from "@/components/SentenceInput.vue";
 import TokenTable from "@/components/TokenTable.vue";
 import DependencyVisualizer from "@/components/DependencyVisualizer.vue";
-import { provideState } from "../api/sentenceFlow";
 
 export default {
-  setup() {
-    provideState();
-  },
   name: "Home",
   components: { SentenceInput, TokenTable, DependencyVisualizer },
 };

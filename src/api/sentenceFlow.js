@@ -1,4 +1,4 @@
-import { ref, computed, provide, inject } from "vue";
+import { ref, computed } from "vue";
 import exampleSentences from "@/example-sentences";
 
 export const generateSentenceFlow = async (sentence) => {
@@ -65,9 +65,9 @@ export const generateSentenceFlow = async (sentence) => {
   }
 };
 
-export const createState = () => {
-  const sentenceFlow = ref(exampleSentences.readable);
+const sentenceFlow = ref(exampleSentences.readable);
 
+export const useState = () => {
   const sentenceFlowString = computed(() => JSON.stringify(sentenceFlow.value));
 
   // Organized flow into levels from root
@@ -170,7 +170,3 @@ export const createState = () => {
     sortTokenChildren,
   };
 };
-
-const stateSymbol = Symbol("state");
-export const useState = () => inject(stateSymbol, createState());
-export const provideState = () => provide(stateSymbol, createState());

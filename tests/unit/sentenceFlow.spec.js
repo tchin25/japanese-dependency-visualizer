@@ -1,5 +1,5 @@
 import exampleSentences from "@/example-sentences";
-import { createState, generateSentenceFlow } from "@/api/sentenceFlow";
+import { useState, generateSentenceFlow } from "@/api/sentenceFlow";
 
 describe("sentenceFlow", () => {
   describe("generateSentenceFlow()", () => {
@@ -41,8 +41,8 @@ describe("sentenceFlow", () => {
     });
   });
 
-  describe("Computed flows from createState()", () => {
-    let { sentenceFlow, levelsFlow, compactedSentenceFlow } = createState();
+  describe("Computed flows from useState()", () => {
+    let { sentenceFlow, levelsFlow, compactedSentenceFlow } = useState();
     it("Correctly computed levelsFlow", () => {
       sentenceFlow.value = exampleSentences.readable;
       expect(levelsFlow.value).toEqual(exampleSentences.levels);
