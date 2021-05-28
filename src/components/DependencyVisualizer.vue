@@ -107,7 +107,7 @@
 // import * as d3 from "d3";
 import { ref } from "vue";
 import svgPanZoom from "svg-pan-zoom";
-import Hammer from "hammerjs";
+import initiateDraggable from "@/composition/initiateDraggable";
 import { scaleOrdinal } from "d3-scale";
 import { schemeDark2 } from "d3-scale-chromatic";
 import { useState } from "@/api/sentenceFlow";
@@ -121,27 +121,47 @@ export default {
     const sentenceFlow = useState();
 
     const svg = ref(null);
+    const insert = ref(null);
 
     const downloadSvg = () => {
       const canvas = document.createElement("canvas");
-      canvas.width = 1920;
-      canvas.height = 1080;
+      const svgClone = svg.value.cloneNode(true);
 
+      // Get the bounds of the SVG content
+      var bbox = svg.value.firstChild.getBBox();
+      const width = bbox.x + bbox.width + bbox.x;
+      // The +4 is to account for padding of last node
+      const height = bbox.y + bbox.height + bbox.y + 4;
+
+      // Update the width and height using the size of the contents
+      svgClone.setAttribute("width", width);
+      svgClone.setAttribute("height", height);
+
+      // Place generated svg into view
+      svgClone.firstChild.setAttribute("style", "");
+      svgClone.firstChild.setAttribute("transform", "");
+
+      // Prepare canvas
       const ctx = canvas.getContext("2d");
+      const paddingX = 8;
+      const paddingY = 8;
+      canvas.width = width + 2 * paddingX;
+      canvas.height = height + 2 * paddingY;
       ctx.fillStyle = "white";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+      // Convert SVG to data url
       const DOMURL = window.URL || window.webkitURL || window;
       const img = new Image();
       const s = new XMLSerializer();
-      const imageData = s.serializeToString(svg.value);
+      const imageData = s.serializeToString(svgClone);
       const svgBlob = new Blob([imageData], {
         type: "image/svg+xml;charset=utf-8",
       });
       const url = DOMURL.createObjectURL(svgBlob);
 
       img.onload = () => {
-        ctx.drawImage(img, 0, 0);
+        ctx.drawImage(img, paddingX, paddingY);
         DOMURL.revokeObjectURL(url);
 
         const imgURI = canvas
@@ -165,50 +185,19 @@ export default {
       img.src = url;
     };
 
-    return { ...sentenceFlow, svg, downloadSvg };
+    return {
+      ...sentenceFlow,
+      ...initiateDraggable(svg),
+      svg,
+      insert,
+      downloadSvg,
+    };
   },
   data() {
     return {
       color: scaleOrdinal(schemeDark2),
-      panZoom: null,
       selectedFlow: 1,
-      hammer: null,
-      initialScale: 1,
     };
-  },
-  mounted() {
-    this.panZoom = svgPanZoom("#flow-graph");
-
-    this.hammer = Hammer(this.$refs.svg, {
-      inputClass: Hammer.SUPPORT_POINTER_EVENTS
-        ? Hammer.PointerEventInput
-        : Hammer.TouchInput,
-    });
-
-    // Enable pinch
-    this.hammer.get("pinch").set({ enable: true });
-
-    // Handle double tap
-    this.hammer.on("doubletap", (ev) => {
-      this.panZoom.zoomIn();
-    });
-
-    // Handle pinch
-    this.hammer.on("pinchstart pinchmove", (ev) => {
-      // On pinch start remember initial zoom
-      if (ev.type === "pinchstart") {
-        this.initialScale = this.panZoom.getZoom();
-        this.panZoom.zoomAtPoint(this.initialScale * ev.scale, {
-          x: ev.center.x,
-          y: ev.center.y,
-        });
-      }
-
-      this.panZoom.zoomAtPoint(this.initialScale * ev.scale, {
-        x: ev.center.x,
-        y: ev.center.y,
-      });
-    });
   },
   computed: {
     currentFlow() {
