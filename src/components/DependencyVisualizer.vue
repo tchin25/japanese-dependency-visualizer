@@ -42,7 +42,7 @@
               {{ n.label }}
             </text>
             <line
-              class="node"
+              stroke-linecap="round"
               stroke="black"
               stroke-width="8"
               :x1="n.x"
@@ -51,7 +51,7 @@
               :y2="n.y"
             />
             <line
-              class="node"
+              stroke-linecap="round"
               stroke="white"
               stroke-width="4"
               :x1="n.x"
@@ -94,12 +94,18 @@
         </div>
         <div class="is-size-7">*You can scroll to zoom on desktop</div>
       </div>
+      <div style="position: absolute; bottom: 1.5rem; right: 1.5rem;">
+        <button class="button control is-small" @click="downloadSvg">
+          Download PNG
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 // import * as d3 from "d3";
+import { ref } from "vue";
 import svgPanZoom from "svg-pan-zoom";
 import Hammer from "hammerjs";
 import { scaleOrdinal } from "d3-scale";
@@ -113,7 +119,53 @@ export default {
   },
   setup() {
     const sentenceFlow = useState();
-    return { ...sentenceFlow };
+
+    const svg = ref(null);
+
+    const downloadSvg = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = 1920;
+      canvas.height = 1080;
+
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const DOMURL = window.URL || window.webkitURL || window;
+      const img = new Image();
+      const s = new XMLSerializer();
+      const imageData = s.serializeToString(svg.value);
+      const svgBlob = new Blob([imageData], {
+        type: "image/svg+xml;charset=utf-8",
+      });
+      const url = DOMURL.createObjectURL(svgBlob);
+
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0);
+        DOMURL.revokeObjectURL(url);
+
+        const imgURI = canvas
+          .toDataURL("image/png")
+          .replace("image/png", "image/octet-stream");
+
+        const evt = new MouseEvent("click", {
+          view: window,
+          bubbles: false,
+          cancelable: true,
+        });
+
+        const a = document.createElement("a");
+        a.setAttribute("download", "dependency_diagram.png");
+        a.setAttribute("href", imgURI);
+        a.setAttribute("target", "_blank");
+
+        a.dispatchEvent(evt);
+      };
+
+      img.src = url;
+    };
+
+    return { ...sentenceFlow, svg, downloadSvg };
   },
   data() {
     return {
@@ -126,7 +178,7 @@ export default {
   },
   mounted() {
     this.panZoom = svgPanZoom("#flow-graph");
-    
+
     this.hammer = Hammer(this.$refs.svg, {
       inputClass: Hammer.SUPPORT_POINTER_EVENTS
         ? Hammer.PointerEventInput
@@ -292,9 +344,6 @@ export default {
 text {
   font-family: sans-serif;
   font-size: 16px;
-}
-.node {
-  stroke-linecap: round;
 }
 #flow-graph:hover {
   cursor: grab;
